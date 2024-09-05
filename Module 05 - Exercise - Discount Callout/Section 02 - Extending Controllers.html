@@ -1,1 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extending Controllers</title>
+</head>
+<body>
+
+<h1>Extending Controllers</h1>
+
+<p>
+    Now that you understand how to structure your controller, let’s discuss a powerful feature in SFRA that allows us to <strong>extend</strong> these controllers without altering the original code.
+</p>
+
+<p>
+    You might wonder: why do we need a feature for extending controllers? Can’t we just change the controller’s code directly? If you're thinking this, revisit the previous module, where we explain why modifying core controller code can lead to significant issues, especially during updates.
+</p>
+
+<p>
+    Remember the <strong>server import</strong> we used to handle <strong>get</strong> and <strong>post</strong> endpoints? It also includes additional functions that allow you to <strong>extend existing functionality</strong> without touching the original controller.
+</p>
+
+<p>
+    But what exactly do we mean by <strong>extending</strong>? It means you can <strong>modify the behavior of a controller without editing the original file</strong>, keeping your changes isolated and safe from future updates.
+</p>
+
+<p>
+    To extend a controller, you will create a new cartridge, and inside that cartridge, you will create a new controller.
+</p>
+
+<h2>Creating a New Controller</h2>
+
+<p>
+    Suppose you want to <strong>extend the Cart.js controller</strong> to add some custom logic. For example, let's say you need to add a specific check to verify if a customer has a loyalty discount before proceeding to the checkout page.
+</p>
+
+<p>
+    First, create a <strong>new cartridge</strong>. Alternatively, you can use the one you created in the previous module. Once the cartridge is ready, replicate the folder structure from <code>app_storefront_base</code> and place your controller in the correct directory. Start with the basic code that all controllers need.
+</p>
+
+<h3>Extending a Controller in Salesforce Commerce Cloud</h3>
+
+<h4>Specify the Controller Being Extended</h4>
+
+<p>
+    Next, you need to specify which controller to extend. There are <strong>two methods</strong>, depending on whether your controller file has the <strong>same name</strong> as the one you’re modifying.
+</p>
+
+<ul>
+    <li><strong>Same name</strong>: If your controller shares the same name as the original file, use <strong>superModule</strong> to tell the framework you're extending a controller with the same name. For example: <code>server.extend(module.superModule);</code></li>
+    <li><strong>Different name</strong>: If your controller has a different name, specify the full path to the original controller using <code>require</code>. For example: <code>server.extend(require('app_storefront_base/cartridge/controllers/Cart'));</code></li>
+</ul>
+
+<h3>Types of Extension</h3>
+
+<p>
+    The <strong>SFRA server module</strong> offers multiple ways to extend a controller. You can add extra logic:
+</p>
+
+<ul>
+    <li><strong>Before</strong> the function begins, using <code>server.prepend</code></li>
+    <li><strong>At the end</strong> of the function, using <code>server.append</code></li>
+    <li><strong>After</strong> the entire middleware chain, using <code>this.on("route:BeforeComplete")</code></li>
+    <li><strong>Replace</strong> the entire function, using <code>server.replace</code></li>
+</ul>
+
+<h3>Examples</h3>
+
+<h4><code>server.append</code></h4>
+<p>
+    Imagine you're developing a storefront feature where, after a customer successfully adds a product to their cart, you want to show a pop-up suggesting complementary products. Using <code>server.append</code>, you can add this logic at the end of the add-to-cart function.
+</p>
+<p>
+    Example: <code>server.append("Cart-AddProduct", function(req, res, next) { showRecommendedProducts(); next(); });</code>
+</p>
+
+<h4><code>server.prepend</code></h4>
+<p>
+    Suppose you want to check whether a product is available in stock before even processing the request to add it to the cart. You can use <code>server.prepend</code> to insert stock-checking logic before the add-to-cart logic.
+</p>
+<p>
+    Example: <code>server.prepend("Cart-AddProduct", function(req, res, next) { if (!isInStock(req.form.productID)) { res.render("outOfStockTemplate"); return; } next(); });</code>
+</p>
+
+<h4><code>server.replace</code></h4>
+<p>
+    In cases where simply appending or prepending logic isn’t enough, and you need to entirely overhaul how the function works—perhaps to optimize the code or accommodate major new requirements—you would use <strong>server.replace</strong>.
+</p>
+<p>
+    Example: Let’s say you want to remove a promotional validation from the checkout process because the business rules changed. Instead of modifying small sections, you rewrite the function completely using <code>server.replace</code>.
+</p>
+
+<h4><code>this.on("route:BeforeComplete")</code></h4>
+<p>
+    Another useful way to extend functionality is by adding logic after the middleware chain, using <code>this.on("route:BeforeComplete")</code>. For instance, after the customer completes a purchase, you could trigger a function to send a personalized thank-you email.
+</p>
+
+<p>
+    Example: In your <code>Cart.js</code> controller, at the end of the <code>GetProduct</code> endpoint, you can add this logic. Any code inside this function runs after the middleware chain completes, making it perfect for post-processing tasks.
+</p>
+
+<p>
+    A common challenge with this approach is that you operate in a different scope, meaning variables outside this function are inaccessible. To work around this, you can use <code>setViewData</code> outside the function and <code>getViewData</code> inside to pass the data back.
+</p>
+
+<p>
+    This method is especially handy when you want to introduce new logic to a controller without creating an entirely new controller file or replicating existing endpoints with <code>append</code>.
+</p>
+
+</body>
+</html>
 
