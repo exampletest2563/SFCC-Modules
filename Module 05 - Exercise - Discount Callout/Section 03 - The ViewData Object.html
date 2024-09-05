@@ -1,1 +1,17 @@
+<h2>ViewData</h2>
+
+<p>One of the most important things to know when extending controllers is <strong>how to retrieve the contents of the response object</strong>.</p>
+
+<p>Let’s refresh things a bit. Remember when we discussed that your functions will render pages or return JSON objects? And that when rendering pages, you can send data to the page? <strong>This data is sent through the ViewData object</strong>.</p>
+
+<p>Now, consider the following scenario: the original function was executed, and data was successfully sent to the page. Everything is fine so far. But now, you need to send <em>additional</em> data to that page in the endpoint that you are extending. The challenge is: <strong>How do you send more data without rendering the page again?</strong> You must avoid performing a second render to prevent errors or duplicate output.</p>
+
+<p>To address this, the response object provides two special methods: <strong>getViewData</strong> and <strong>setViewData</strong>. Their names are self-explanatory:</p>
+
+<ul>
+    <li><strong>getViewData</strong> allows you to <em>retrieve</em> the current ViewData object.</li>
+    <li><strong>setViewData</strong> lets you <em>add extra content</em> to the ViewData object.</li>
+</ul>
+
+<p>Imagine you're working on a page that displays a product catalog. Initially, the page shows the product list, but later in the process, you decide to add dynamic pricing or real-time inventory updates from a third-party system. Instead of rendering the page again, you can use <strong>setViewData</strong> to inject the new data (e.g., updated prices) directly into the existing ViewData. This way, the user gets real-time information without refreshing the page!</p>
 
