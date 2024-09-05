@@ -1,0 +1,139 @@
+<h3><strong>ISML Tags and Expressions</strong></h3>
+
+<p><strong>ISML</strong> tags are proprietary extensions to HTML used inside ISML templates on Commerce Cloud. These tags and expressions are specific to ISML templates and cannot be used outside of them.</p>
+
+<p>ISML tags always start with <code>is</code>, such as <code>&lt;isprint&gt;</code>, and describe how dynamic data will be embedded and formatted on the page, in conjunction with regular HTML.</p>
+
+<p>ISML tags can be categorized based on their functionality, as shown in the table below:</p>
+
+<table>
+    <thead>
+        <tr>
+            <th><strong>Group</strong></th>
+            <th><strong>Tags</strong></th>
+            <th><strong>Purpose</strong></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>HTTP-related</td>
+            <td>
+                <code>&lt;iscookie&gt;</code>, <code>&lt;iscontent&gt;</code>, <code>&lt;isredirect&gt;</code>, <code>&lt;isstatus&gt;</code>
+            </td>
+            <td>
+                Sets cookies, defines MIME types, redirects browsers, and sets status codes.
+            </td>
+        </tr>
+        <tr>
+            <td>Flow Control</td>
+            <td>
+                <code>&lt;isif&gt;</code>, <code>&lt;iselse&gt;</code>, <code>&lt;iselseif&gt;</code>, <code>&lt;isloop&gt;</code>, <code>&lt;isnext&gt;</code>, <code>&lt;isbreak&gt;</code>
+            </td>
+            <td>
+                Evaluates conditions, specifies alternative logic, creates loops, and controls loop execution.
+            </td>
+        </tr>
+        <tr>
+            <td>Variable-related</td>
+            <td>
+                <code>&lt;isset&gt;</code>, <code>&lt;isremove&gt;</code>
+            </td>
+            <td>
+                Creates and removes variables.
+            </td>
+        </tr>
+        <tr>
+            <td>Include</td>
+            <td>
+                <code>&lt;isinclude&gt;</code>, <code>&lt;ismodule&gt;</code>, <code>&lt;iscomponent&gt;</code>
+            </td>
+            <td>
+                Includes contents of one template into another, declares custom tags, and includes output from a controller or pipeline.
+            </td>
+        </tr>
+        <tr>
+            <td>Scripting</td>
+            <td>
+                <code>&lt;isscript&gt;</code>
+            </td>
+            <td>
+                Allows execution of Commerce Cloud Digital Script inside templates.
+            </td>
+        </tr>
+        <tr>
+            <td>Forms</td>
+            <td>
+                <code>&lt;isselect&gt;</code>
+            </td>
+            <td>
+                Enhances the HTML <code>&lt;select&gt;</code> tag.
+            </td>
+        </tr>
+        <tr>
+            <td>Output</td>
+            <td>
+                <code>&lt;isprint&gt;</code>, <code>&lt;isslot&gt;</code>, <code>&lt;iscontentasset&gt;</code>
+            </td>
+            <td>
+                Formats strings for output, creates content slots, and generates content assets.
+            </td>
+        </tr>
+        <tr>
+            <td>Others</td>
+            <td>
+                <code>&lt;iscache&gt;</code>, <code>&lt;iscomment&gt;</code>, <code>&lt;isdecorate&gt;</code>, <code>&lt;isreplace&gt;</code>
+            </td>
+            <td>
+                Caches pages, adds comments, reuses templates for page layout, and replaces content inside decorator templates.
+            </td>
+        </tr>
+        <tr>
+            <td>Active Data</td>
+            <td>
+                <code>&lt;isactivedatahead&gt;</code>, <code>&lt;isactivecontenthead&gt;</code>, <code>&lt;isobject&gt;</code>
+            </td>
+            <td>
+                Collects active data, category context, and specific object impressions/views dynamically.
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h3><strong>ISML Expressions</strong></h3>
+
+<p><strong>ISML Expressions</strong> are based on the Digital Script language, which implements the ECMAScript standard. This means that access to variables, methods, and objects in ISML expressions is similar to using JavaScript.</p>
+
+<p>ISML expressions are embedded within <code>${…}</code> to allow the ISML processor to interpret them before executing an ISML tag or rendering the rest of the page. They can also access Digital Script classes and methods. Two packages are available implicitly in ISML, so classes do not need to be fully qualified:</p>
+
+<ul>
+    <li><code>TopLevel</code> package: <code>session.getCustomer()</code></li>
+    <li><code>dw.web</code> package: <code>URLUtils.url()</code>, <code>URLUtils.webRoot()</code></li>
+</ul>
+
+<p>The <code>TopLevel</code> package includes a class named <code>global</code>, which is implied and does not need a prefix. Other classes and methods must be fully qualified, such as <code>${dw.system.Site.getCurrent().getName()}</code>.</p>
+
+<p>Examples of ISML expressions include:</p>
+
+<ul>
+    <li><code>${TopLevel.global.session.getCustomer().getProfile().getLastName()}</code> (equivalent to <code>${session.getCustomer().getProfile().getLastName()}</code>)</li>
+    <li><code>${session.customer.profile.lastName}</code> (alternative syntax)</li>
+    <li><code>${pdict.CurrentSession.customer.profile.lastName}</code></li>
+    <li><code>${pdict.CurrentCustomer.profile.lastName}</code></li>
+    <li><code>${dw.system.Site.getCurrent().getName()}</code> (alternative syntax: <code>${dw.system.Site.current.name}</code>)</li>
+    <li><code>${pdict.myProduct.getLongDescription() != null}</code> (example of complex arithmetical, boolean, and string operations)</li>
+</ul>
+
+<h3><strong>ISML Tags</strong></h3>
+
+<p>In this section, we will cover the most frequently used tags:</p>
+
+<ul>
+    <li><code>&lt;isprint&gt;</code></li>
+    <li><code>&lt;isset&gt;</code></li>
+    <li><code>&lt;isinclude&gt;</code></li>
+    <li><code>&lt;isdecorate&gt;</code></li>
+    <li><code>&lt;isloop&gt;</code></li>
+    <li><code>&lt;isif&gt;</code>, <code>&lt;iselseif&gt;</code>, <code>&lt;iselse&gt;</code></li>
+</ul>
+
+<p>Although some ISML tags, such as <code>&lt;isslot&gt;</code>, do not require a corresponding closing tag, it is considered best practice to always use a closing tag for clarity and consistency.</p>
