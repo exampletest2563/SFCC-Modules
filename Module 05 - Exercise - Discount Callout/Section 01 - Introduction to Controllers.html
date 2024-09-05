@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controllers in Salesforce B2C Commerce</title>
+</head>
+<body>
+
+<h1>Introduction</h1>
+<p>
+    Controllers are server-side scripts written in JavaScript and Salesforce B2C Commerce Script that handle storefront requests. They manage the flow of data in your application and create ViewModels to process each storefront request as a route, generating an appropriate response.
+</p>
+<p>
+    For example, in a storefront application, clicking a category menu item or entering a search term triggers the controller that renders a page. Each route represents a request, and controllers ensure the correct data is fetched and displayed.
+</p>
+<p>
+    Controllers can be broken down into smaller pieces, making it easier to analyze each part individually and understand its responsibilities. We will use the <code>Cart.js</code> controller, located at <code>app_storefront_base\cartridge\controllers\Cart.js</code>, as a reference in this module.
+</p>
+
+<h2>Dissecting the Controller</h2>
+<p>
+    Let’s break down the <code>Cart.js</code> controller to understand its components. You will notice that controllers follow a consistent pattern. Once you grasp this pattern, you’ll be able to work with any controller more effectively. In general, controllers have the following structure:
+</p>
+<ul>
+    <li>General Imports</li>
+    <li>Endpoints</li>
+    <ul>
+        <li>Route</li>
+        <li>Middlewares</li>
+        <li>Local Imports</li>
+        <li>Retrieve Request Parameters</li>
+        <li>Logic</li>
+        <li>Rendering</li>
+        <li>Middleware Chain</li>
+    </ul>
+    <li>Exports</li>
+</ul>
+
+<h3>Imports</h3>
+<p>
+    This refers to the first lines of code in the controller where you can see one or many <code>require</code> clauses. These "requires" import files, classes, or functions that are used by various parts of the controller.
+</p>
+<p>
+    For example, <code>var server = require("server");</code> is used in all functions. Additionally, <code>csrfProtection</code> and <code>consentTracking</code> are imported and later used by specific endpoints.
+</p>
+
+
+<h3>Endpoints</h3>
+<p>
+    Endpoints define how you interact with your application. They are created using <code>server.&lt;something&gt;</code>, and the first parameter is always a string representing the endpoint name. This string is used to call the endpoint.
+</p>
+<p>
+    The most common endpoints are <code>get</code> and <code>post</code>, but there are others like <code>append</code>, <code>prepend</code>, and <code>replace</code>, depending on the use case.
+</p>
+
+<h3>Route</h3>
+<p>
+    Routes are defined as the first parameter of the endpoint and specify the string used to call the endpoint. For example:
+</p>
+<pre><code>server.get('Cart', cartFunction);</code></pre>
+<p>
+    By convention, PascalCase is used when naming routes.
+</p>
+
+<h3>Middlewares</h3>
+<p>
+    Middleware functions process requests and responses in a chain, allowing code to be run at various stages of a request. If you’re familiar with Node.js, you probably already know how useful middleware can be.
+</p>
+<p>
+    Middleware runs code on each request for a specific route, performing actions on the request or response data. For instance, authentication checks or data validation often happen within middleware.
+</p>
+
+<p>
+    For more detailed insights into middleware and its advantages, check out this <a href="https://medium.com/@jamischarles/what-is-middleware-a-simple-explanation-bb22d6b41d01">awesome article</a>.
+</p>
+
+<h3>Local Imports (Optional)</h3>
+<p>
+    Sometimes, instead of placing all <code>require</code> statements at the top of the controller, they may be located within a function’s body. This method is used when you only need specific modules for that function.
+</p>
+
+<h3>Retrieve Request Parameters (Optional)</h3>
+<p>
+    Often, you’ll create functions that process data based on values passed to them. For example, if a user adds a product to their cart, the function needs to know which product to add.
+</p>
+<p>
+    Parameters are typically found in one of three places inside the <code>request</code> object:
+</p>
+<ul>
+    <li><strong>querystring</strong>: Holds parameters passed directly from a template</li>
+    <li><strong>form</strong>: Holds form-submitted values</li>
+    <li><strong>others</strong>: Data passed via AJAX, often in <code>req.&lt;name_of_the_object&gt;</code></li>
+</ul>
+
+<h3>Logic</h3>
+<p>
+    This section contains the core logic of the function, such as API communication, conditional checks, and business rules.
+</p>
+
+<h3>Render a Template / Return Data</h3>
+<p>
+    Functions either render a page (often sending data to the template) or return data (such as JSON or XML) for use on the page.
+</p>
+
+<h4>Example of Rendering a Template:</h4>
+<pre><code>res.render('templateName', data);</code></pre>
+
+<h4>Example of Returning JSON Data:</h4>
+<pre><code>res.json({ key: value });</code></pre>
+
+<h3>Middleware Chain</h3>
+<p>
+    The middleware chain is a critical part of the controller, represented by the function call <code>next()</code>. This function passes control to the next function in the middleware sequence.
+</p>
+<p>
+    Sometimes, you may see <code>return next();</code>, which stops the middleware chain.
+</p>
+
+<h4>Understanding <code>next()</code> vs <code>return next()</code></h4>
+<p>
+    If you’re unsure about the differences, check out <a href="https://teamtreehouse.com/community/next-vs-return-next">this explanation</a>.
+</p>
+
+<h3>Exports</h3>
+<p>
+    The last line in your controller always exports your endpoints, making them available to the outside world:
+</p>
+<pre><code>module.exports = server.exports();</code></pre>
+
+<h2>What are <code>req</code>, <code>res</code>, and <code>next</code>?</h2>
+<p>
+    Every middleware function receives three parameters: <code>req</code> (request), <code>res</code> (response), and <code>next</code>. These parameters allow you to manage data flowing between the client and the server.
+</p>
+<ul>
+    <li><strong>req</strong>: Contains information about the server request, including query string parameters in <code>req.querystring</code>.</li>
+    <li><strong>res</strong>: Provides functions to output data back to the client.</li>
+    <li><strong>next</strong>: Notifies the server to proceed to the next middleware function.</li>
+</ul>
+
+</body>
+</html>
