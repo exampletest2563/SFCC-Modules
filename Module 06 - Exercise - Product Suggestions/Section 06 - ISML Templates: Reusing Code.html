@@ -1,0 +1,78 @@
+<h3><strong>Reusing Code in Templates</strong></h3>
+
+<p>Reusable code saves time in both code creation and updates. It also reduces errors and helps ensure a consistent look and feel.</p>
+
+<p>You can use the following tags to reuse code in ISML templates:</p>
+
+<table>
+    <thead>
+        <tr>
+            <th><strong>Tag</strong></th>
+            <th><strong>Description</strong></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>&lt;isinclude&gt;</code></td>
+            <td>Embed an ISML template inside an invoking template. There are two types:
+                <ul>
+                    <li><strong>Local Include</strong> - Includes the code of one ISML template inside another while generating the page. All variables from the including template are available in the included template, including page variables.</li>
+                    <li><strong>Remote Include</strong> - Includes the output of another controller inside an ISML template. This is used primarily for partial page caching. <br> pdict and page variables from the invoking template are not available in the included template. The only variables available to a remotely included JavaScript controller are session variables. Includes from another server are not supported.</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><code>&lt;isdecorate&gt;</code></td>
+            <td>Decorates the enclosed content with the contents of the specified (decorator) template. A decorator is an ISML template that has HTML, CSS, and the overall page design.</td>
+        </tr>
+        <tr>
+            <td><code>&lt;ismodule&gt;</code></td>
+            <td>Defines your own ISML tags, which can be used like any standard tags.</td>
+        </tr>
+        <tr>
+            <td><code>&lt;iscomponent&gt;</code></td>
+            <td>Invokes a remote include.</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>Local include syntax:</p>
+<pre><code>&lt;isinclude template="[directory/]templatename"&gt;</code></pre>
+<p>(You do not need to add the <code>.isml</code> extension when including a template)</p>
+
+<p>Remote include syntax:</p>
+<pre><code>&lt;isinclude url="${URLUtils.https('controller_url')}" /&gt;</code></pre>
+
+<p>Here are some examples:</p>
+<ul>
+    <li><code>&lt;isinclude template="extras/calendar" /&gt;</code> (Local include)</li>
+    <li><code>&lt;isinclude url="${URLUtils.url('ConsentTracking-Check')}" /&gt;</code> (Remote include)</li>
+</ul>
+
+<p>In this example, the <code>dw.web.URLUtils.url()</code> method builds a site-specific URL for the <code>ConsentTracking-Check</code> controller. Never hard-code a controller URL since it would contain a specific server. Use methods from <code>URLUtils</code> instead.</p>
+
+<p>To pass parameters to your controller, use the following syntax:</p>
+<pre><code>&lt;isinclude url="${URLUtils.https('controller_url', <parameterId_1>, <parameterValue_1>, .. <parameterId_n>, <parameterValue_n>)"&gt;</code></pre>
+
+<p>Finally, you could also implement a remote include via the <code>&lt;iscomponent&gt;</code> tag. It also supports passing multiple attributes:</p>
+<pre><code>&lt;iscomponent
+     pipeline="<string>" | "<expression>" [locale="<string>" | "<expression>"]
+     [any number of additional arbitrarily named parameters]
+/&gt;</code></pre>
+
+<p>In practice, this tag is not used anywhere in SFRA. We use <code>&lt;isinclude&gt;</code> instead. This tag is similar to a remote include but uses pipeline-related attributes to specify the content-generating target and allows for arbitrary attributes. Technically, the <code>&lt;iscomponent&gt;</code> tag performs the same function as a remote include, but its direct association with a pipeline makes its purpose more apparent. It is intended to embed reusable functionality, encapsulated in a pipeline, into another template. It also allows the embedded component to have a different caching policy than the included page.</p>
+
+<h3><strong>Reusing Page Layouts</strong></h3>
+
+<p>One very useful feature that ISML offers is the ability to create page layouts and reuse those layouts on any pages we want. This avoids creating pages from scratch every time and simplifies maintenance. If we need to fix anything on the page, including SCSS or JavaScript imports, we only need to update the page layout being used, and the changes will be reflected on all pages using it.</p>
+
+<p>To use page layouts, we use the <code>&lt;isdecorate&gt;</code> tag. These files are kept in a specific folder: <code>app_storefront_base\cartridge\templates\default\common\layout</code>.</p>
+
+<p>The decorator template uses <code>&lt;isreplace&gt;</code> to identify where to include the decorated content. The following example shows a decorator and the area where the code is being replaced by whatever template that uses the decorator:</p>
+
+<p>A typical use case is to decorate the content body with a header and footer. See the <code>app_storefront_base\cartridge\templates\default\common\layout\page.isml</code> file for an example:</p>
+
+<p>Typically, the decorator template only uses one tag, <code>&lt;isreplace&gt;</code>. However, you can use multiple tags. If the decorator template uses multiple <code>&lt;isreplace&gt;</code> tags, the content to be decorated will be included for each <code>&lt;isreplace&gt;</code> tag.</p>
+
+<p>Here is an example of a homepage using a decorator:</p>
+<pre><code>&lt;isdecorate template="common/layout/page" /&gt;</code></pre>
