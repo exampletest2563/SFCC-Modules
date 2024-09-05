@@ -1,22 +1,109 @@
-<h4><strong>Introduction to APIs in SFCC</strong></h4>
+<h3><strong>Introduction</strong></h3>
 
-<p><strong>APIs (Application Programming Interfaces)</strong> are essential for enabling different software systems to communicate and interact with each other. In Salesforce Commerce Cloud (SFCC), APIs play a crucial role in extending the platform's functionality, integrating with external systems, and supporting various business processes.</p>
+<p>All requirements we have seen in previous chapters of the SFRA course that start with <code>dw/</code> mean that they are part of the Salesforce Commerce Cloud API. We don’t have access to the source code. If you need details, functions, or attributes about any of them, refer to <a href='https://documentation.b2c.commercecloud.salesforce.com/DOC1/index.jsp?topic=%2Fcom.demandware.dochelp%2FDWAPI%2Fscriptapi%2Fhtml%2Fapi%2FpackageList.html&cp=0_20_2'>the official documentation </a> .</p>
 
-<h4><strong>What is an API in SFCC?</strong></h4>
+<p>The API is used to access data about the system, such as products, catalogs, prices, etc. You can access the API from both controllers and ISML templates for expressions or inside <code>&lt;isscript&gt;</code> tags.</p>
 
-<p>In SFCC, an API is a collection of defined methods and tools that allows you to interact with and manipulate the SFCC platform programmatically. APIs in SFCC enable a wide range of operations, including retrieving data, updating records, managing sessions, and interfacing with external services.</p>
+<h3><strong>API Packages</strong></h3>
 
-<h4><strong>Types of APIs in SFCC</strong></h4>
+<p>The Digital Script API is organized in packages, similar to Java. Unlike Java, inheritance is not possible from these classes or packages when you create a script. You can only use the properties and methods of these classes in your scripts.</p>
 
-<p>SFCC provides several types of APIs, each serving a unique purpose and catering to different needs:</p>
+<p>In this API, the <code>TopLevel</code> package is the default package. It is similar to <code>java.lang</code> in Java. It does not need to be imported into scripts. It provides standard ECMAScript classes and extensions, such as <code>Error</code>, <code>Date</code>, <code>Function</code>, <code>String</code>, <code>Math</code>, <code>Number</code>, and <code>XML</code>.</p>
 
-<p><strong>1. Commerce APIs:</strong> These APIs offer access to core commerce functionalities such as product management, customer management, order processing, and promotions. For example, the <strong>Product API</strong> allows you to retrieve product details, search for products, and manage inventory. This can be particularly useful when creating a custom product listing page that displays all items within a specific category. Similarly, the <strong>Customer API</strong> helps manage customer accounts, handle logins, and retrieve customer data, enabling personalized shopping experiences based on individual preferences and purchase history. The <strong>Order API</strong> is used to process orders, view order history, and update order statuses, which can automate the transition of order statuses from 'Processing' to 'Shipped' as items are dispatched.</p>
+<p>The <code>TopLevel.global</code> class contains many of the common constants and properties used in scripts. Some properties are: <code>customer</code>, <code>request</code>, and <code>session</code>.</p>
 
-<p><strong>2. Service APIs:</strong> These APIs facilitate communication between SFCC and external services or systems. For instance, the <strong>Payment Service API</strong> integrates with external payment gateways to process transactions, allowing you to offer additional payment options at checkout. The <strong>Shipping Service API</strong> connects with shipping carriers to manage shipping rates and track shipments, providing real-time shipping estimates and tracking information directly on your site.</p>
+<p>In these packages, there are many classes that end with <code>Mgr</code>: These classes, such as <code>dw.catalog.ProductMgr</code>, retrieve instances of business objects related to the package they belong to.</p>
 
-<p><strong>3. Custom APIs:</strong> These APIs enable you to create custom endpoints tailored to your specific business needs. You can define <strong>Custom Data Endpoints</strong> to interact with your unique data models or third-party systems, such as fetching user-generated content for personalized marketing campaigns. <strong>Custom Integration Endpoints</strong> can be built to integrate with external systems like CRM or ERP systems, streamlining data exchange and enhancing customer interactions.</p>
+<p>For example, use <code>ProductMgr.getProduct(String id)</code> to get a product using a unique identifier. The method returns a <code>Product</code> instance which you can use to find information about the product. This pattern is repeated for all Managers.</p>
 
-<p><strong>4. RESTful APIs:</strong> RESTful APIs provide a standard way to interact with SFCC resources over HTTP. For example, the <strong>GET /products</strong> endpoint allows you to retrieve a list of products, which can be used to dynamically populate product recommendations on your homepage based on current inventory. The <strong>POST /orders</strong> endpoint enables you to create new orders, useful for integrating with a custom front-end application where users can place orders through a separate interface.</p>
+<p>The table below shows the description of some of these packages. You don’t need to remember everything, just use it as a reference for future needs:</p>
 
-<p><strong>5. SOAP APIs:</strong> SOAP APIs use XML-based messaging to perform operations and retrieve data. The <strong>Order Management SOAP API</strong> allows you to manage and retrieve order data using SOAP-based web services. This can be particularly beneficial for synchronizing order information with a legacy system that relies on SOAP for data exchange.</p>
+<h3><strong>eCommerce API Packages</strong></h3>
 
+<table>
+    <thead>
+        <tr>
+            <th><strong>Package</strong></th>
+            <th><strong>Description</strong></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>dw.campaign</code></td>
+            <td>For campaign and promotions.<br>Classes: <code>PromotionMgr</code>, <code>Campaign</code>, <code>Promotion</code>, <code>SourceCodeGroup</code>, etc.</td>
+        </tr>
+        <tr>
+            <td><code>dw.catalog</code></td>
+            <td>For catalog, product, and price book.<br>Classes: <code>CatalogMgr</code>, <code>Category</code>, <code>Product</code>, <code>Recommendation</code>, <code>PriceBook</code>, etc.</td>
+        </tr>
+        <tr>
+            <td><code>dw.content</code></td>
+            <td>For non-product content management.<br>Classes: <code>ContentMgr</code>, <code>Content</code>, <code>Folder</code>, <code>Library</code>, etc.</td>
+        </tr>
+        <tr>
+            <td><code>dw.customer</code></td>
+            <td>For customer profile and account.<br>Classes: <code>CustomerMgr</code>, <code>Customer</code>, <code>Profile</code>, <code>ProductList</code>, <code>OrderHistory</code>, etc.</td>
+        </tr>
+        <tr>
+            <td><code>dw.order</code></td>
+            <td>For orders, including basket, coupons, line items, payment, shipment.<br>Classes: <code>Basket</code>, <code>Order</code>, <code>ProductLineItem</code>, <code>ShippingMgr</code>, <code>TaxMgr</code>, etc.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3><strong>Generic API Packages</strong></h3>
+
+<table>
+    <thead>
+        <tr>
+            <th><strong>Package</strong></th>
+            <th><strong>Description</strong></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>dw.crypto</code></td>
+            <td>Encryption services using JCA; DES, Triple-DES, AES, RSA, etc.<br>Classes: <code>Cipher</code>, <code>MessageDigest</code></td>
+        </tr>
+        <tr>
+            <td><code>dw.io</code></td>
+            <td>Input and output.<br>Classes: <code>File</code>, <code>FileReader</code>, <code>CSVStreamReader</code>, <code>XMLStreamReader</code>, etc.</td>
+        </tr>
+        <tr>
+            <td><code>dw.object</code></td>
+            <td>System base classes and custom objects.<br>Classes: <code>PersistentObject</code>, <code>ExtensibleObject</code>, <code>CustomObjectMgr</code>, etc.</td>
+        </tr>
+        <tr>
+            <td><code>dw.rpc</code></td>
+            <td>Web services related APIs.<br>Classes: <code>WebReference</code>, <code>Stub</code></td>
+        </tr>
+        <tr>
+            <td><code>dw.system</code></td>
+            <td>System functions.<br>Classes: <code>Site</code>, <code>Request</code>, <code>Session</code>, <code>Logger</code></td>
+        </tr>
+        <tr>
+            <td><code>dw.util</code></td>
+            <td>Similar to the <code>java.util</code> API: collections, maps, and calendar classes.</td>
+        </tr>
+        <tr>
+            <td><code>dw.value</code></td>
+            <td>Immutable value objects.<br>Classes: <code>Money</code>, <code>Quantity</code></td>
+        </tr>
+        <tr>
+            <td><code>dw.web</code></td>
+            <td>Web-processing.<br>Classes: <code>URLUtils</code>, <code>Forms</code>, <code>Cookie</code>, <code>HttpParameterMap</code>, etc.</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>You can also embed SFCC Script API calls into ISML by using the <code>&lt;isset&gt;</code> tag, as shown below:</p>
+<pre><code>&lt;isset name="PaymentInst" value="${require('dw/order/PaymentInstrument');}" scope="page" /&gt;</code></pre>
+
+<p>Inside the <code>&lt;isscript&gt;</code> tag, you can fully qualify every class you want to use or import any packages at the top of the script:</p>
+<pre><code>&lt;isscript&gt;
+    var CatalogMgr = require('dw/catalog/CatalogMgr');
+    var siteCatalog = CatalogMgr.getSiteCatalog();
+    ...
+&lt;/isscript&gt;</code></pre>
+
+<p>Be aware that adding logic inside ISML templates is <strong>NOT RECOMMENDED</strong>, so use it with moderation. Instead, always try to add any logic in the Controller.</p>
