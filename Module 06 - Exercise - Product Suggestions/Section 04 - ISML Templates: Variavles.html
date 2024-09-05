@@ -1,0 +1,109 @@
+<h3><strong>ISML Template Variables</strong></h3>
+
+<p><strong>Variables</strong> are used to handle dynamic content in Salesforce Commerce Cloud (SFCC) templates. These variables allow you to format and display data efficiently within your ISML templates.</p>
+
+<h3><strong>Printing Variables Within the Page</strong></h3>
+
+<p>ISML provides several built-in styles for printing variables, each designed to format data in a specific way:</p>
+
+<table>
+    <thead>
+        <tr>
+            <th><strong>Type</strong></th>
+            <th><strong>Description</strong></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>MONEY_LONG</td>
+            <td>Prints money with currency symbol, e.g., $3,333.00</td>
+        </tr>
+        <tr>
+            <td>MONEY_SHORT</td>
+            <td>Prints money without the symbol, e.g., 3,333.00</td>
+        </tr>
+        <tr>
+            <td>DECIMAL</td>
+            <td>Prints the value with two decimal places, e.g., 3,455.35</td>
+        </tr>
+        <tr>
+            <td>INTEGER</td>
+            <td>Rounds off and prints only the integer portion, e.g., 3,455</td>
+        </tr>
+        <tr>
+            <td>DATE_LONG</td>
+            <td>Prints date in the long format, e.g., Jul 24, 2016</td>
+        </tr>
+        <tr>
+            <td>DATE_SHORT</td>
+            <td>Prints date in the short format, e.g., 07/24/2016</td>
+        </tr>
+        <tr>
+            <td>encoding="off"</td>
+            <td>Prints strings containing HTML without encoding</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>The <code>&lt;isprint&gt;</code> tag can be used to print the formatted output of a variable or expression to the browser. This tag utilizes built-in styles or formatters. For more details on formatters, refer to the documentation. Here are some examples of using <code>&lt;isprint&gt;</code> with different styles:</p>
+
+<pre><code>&lt;isprint value="${myMoney}" style="MONEY_LONG"&gt;/&gt;
+&lt;isprint value="${myMoney}" style="MONEY_SHORT"&gt;/&gt;
+&lt;isprint value="${myNumber}" style="DECIMAL"&gt;/&gt;
+&lt;isprint value="${myNumber}" style="INTEGER"&gt;/&gt;
+&lt;isprint value="${new Date()}" style="DATE_LONG"&gt;/&gt;
+&lt;isprint value="${new Date()}" style="DATE_SHORT"&gt;/&gt;
+&lt;isprint value="${myString}" encoding="off"&gt;/&gt;</code></pre>
+
+<h3><strong>Creating and Accessing Variables</strong></h3>
+
+<p>You can create and access custom variables in an ISML template using the <code>&lt;isset&gt;</code> tag. This tag requires the <code>name</code> and <code>value</code> attributes. The default scope for variables created with <code>&lt;isset&gt;</code> is the session, but you can specify different scopes as needed.</p>
+
+<p>Here's how you can use the <code>&lt;isset&gt;</code> tag:</p>
+
+<pre><code>&lt;isset name="name" value="expression" scope="session" | "request" | "page"&gt;</code></pre>
+
+<p><strong>Value Attribute:</strong> The <code>value</code> attribute can be a hardcoded string, number, or an ISML expression accessing another variable or object. For example:</p>
+
+<ul>
+    <li>String: <code>value="hardcoded text"</code></li>
+    <li>Expression: <code>value="${pdict.myProduct.name}"</code></li>
+</ul>
+
+<p><strong>Scope Attribute:</strong> The scope attribute defines the accessibility levels of the variable. The scopes are as follows:</p>
+
+<table>
+    <thead>
+        <tr>
+            <th><strong>Scope</strong></th>
+            <th><strong>Definition</strong></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>session</td>
+            <td>Available throughout the entire customer session, even across multiple requests. Variables are accessed with the <code>session.custom</code> qualifier, e.g., <code>${session.custom.myVar}</code>.</td>
+        </tr>
+        <tr>
+            <td>request</td>
+            <td>Available for the current internal Salesforce B2C Commerce request only. The variable is not available for multiple requests or after an interaction continue node.</td>
+        </tr>
+        <tr>
+            <td>page</td>
+            <td>Available only for the specific ISML page and its locally included pages. Accessed without a prefix, e.g., <code>${pageVar}</code>.</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>Examples of using the <code>&lt;isset&gt;</code> tag and retrieving variables from different scopes:</p>
+
+<pre><code>&lt;isset name="x" value="12343" scope="session"&gt;/&gt;
+&lt;isset name="x" value="${12343}" scope="session"&gt;/&gt;
+&lt;iscomment&gt; Session is implied here &lt;/iscomment&gt;
+&lt;isset name="x" value="12343" /&gt;
+
+Retrieving from session: <code>${session.custom.x} | ${pdict.CurrentSession.custom.x}</code>
+Request Scope: <code>${request.custom.x} | ${pdict.CurrentRequest.custom.x}</code>
+Page Scope: <code>${x}</code></pre>
+
+<p>For more information about the <code>&lt;isset&gt;</code> tag, refer to the <a href="https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/content/b2c_commerce/topics/isml/b2c_isset.html">Salesforce Commerce Cloud documentation</a>.</p>
