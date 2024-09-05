@@ -1,0 +1,32 @@
+<h2>SFRA Scripts</h2>
+
+<p>Now that you have a solid understanding of the architecture and data flow, let’s talk about <strong>scripts</strong>. And no, we're not referring to the SFCC Digital Scripts API this time. Instead, we'll focus on the <strong>scripts folder</strong> inside your cartridge.</p>
+
+<h3>Avoid Putting Too Much Logic in Controllers</h3>
+
+<p>As you might notice, a Controller typically defines only endpoints without including extensive logic or helper functions. While you might think that each endpoint is massive and complex, this isn't always the case. Base controllers, at the very least, use <strong>helper functions defined in external scripts</strong>.</p>
+
+<p>By isolating logic in external scripts, you make your code more reusable across different parts of your application. This approach also simplifies maintenance, as any changes need to be made and tested only in one place rather than in multiple locations where the same logic is duplicated.</p>
+
+<h3>Your Functions Should Do One Thing</h3>
+
+<p>You’ve probably heard this advice before: functions should do only one thing. However, there’s often debate about what constitutes "one thing." For example, if adding a product to the cart involves 100 lines of code for validations and data retrieval, should all these steps be included in a single function?</p>
+
+<p>Robert C. Martin introduced the Single Responsibility Principle (SRP), which states that every module, class, or function should have responsibility over a single part of the program’s functionality and should encapsulate that part. All services provided by that module, class, or function should align closely with its responsibility.</p>
+
+<p>In practical terms, if you’re adding a product to the cart and it requires extensive validation and data handling, consider breaking these tasks into smaller, more focused functions. For instance, you might have one function for validation, another for data retrieval, and a third for updating the cart.</p>
+
+<h3>What Are Scripts?</h3>
+
+<p>To avoid duplicating code and to prevent excessive logic in a single place, isolate pieces of logic in the <strong>scripts folder</strong> so they can be used across both backend and frontend. This approach greatly enhances <strong>maintenance</strong>, makes functions easier to read, and significantly reduces the risk of errors due to unknown code replication.</p>
+
+<p>Take a look at how the scripts folder is structured. Although it may change as improvements are made to the repository, understanding the current structure is crucial. We won’t delve into the specifics of each script here, but remember to use good judgment and adhere to the principle of keeping functions focused on a single responsibility.</p>
+
+<p>For example, you can examine the following files to see how helper functions are structured and used:</p>
+
+<ul>
+    <li><code>app_storefront_base/cartridge/scripts/helpers/emailHelpers.js</code></li>
+    <li><code>app_storefront_base/cartridge/scripts/helpers/formatHelpers.js</code></li>
+</ul>
+
+<p>These files demonstrate how breaking down functionality into specialized helper scripts can streamline your development process and make your codebase more manageable.</p>
