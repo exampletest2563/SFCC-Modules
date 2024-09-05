@@ -1,0 +1,17 @@
+<h2>Showing Controllers in the URL</h2>
+
+<p>One thing you might have noticed is that your storefront URL does not provide any hint about which controller is actually being called.</p>
+
+<p>To address this and make it possible to call your own controllers through the URL, follow these steps:</p>
+
+<ol>
+    <li>Go to <strong>Merchant Tools &gt; Site Preferences &gt; Storefront URLs</strong>.</li>
+    <li>Uncheck the <strong>Enable Storefront URLs</strong> checkbox (Note: In production, this should always be checked).</li>
+    <li>Click <strong>Apply</strong>.</li>
+</ol>
+
+<p>Now, check your storefront homepage URL again. It should look like this:</p>
+
+<p><em>Example URL:</em> <code>https://yourstorefront.com/controllerName/Home-Show</code></p>
+
+<p>By following these steps, you can see which controllers are being called directly from the URL. For instance, if you're developing a custom checkout process and want to debug or verify specific controller actions, this approach can help you quickly identify the exact controller handling the request without diving into code.</p>
