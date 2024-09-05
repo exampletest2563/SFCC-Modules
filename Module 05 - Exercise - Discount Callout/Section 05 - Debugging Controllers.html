@@ -1,0 +1,27 @@
+<h2>Debugging Controllers</h2>
+
+<p>One of the most important tools a developer can have is a <strong>debugger</strong>. It simplifies your development process by allowing you to pause code execution at any specific line, analyze variable values, and execute your code line by line to ensure it behaves as expected.</p>
+
+<p>The <strong>Prophet extension</strong> for Visual Studio Code not only lets you sync your code with the sandbox but also provides a robust debugging feature. To use it, follow these steps:</p>
+
+<ol>
+    <li>Open any controller and <strong>click on the left of any line number</strong> that has code. A red dot will appear, indicating a breakpoint. When the function is called, execution will pause at that line if the debugger is running.</li>
+    <li>On the left panel, click on the <strong>bug icon</strong>.</li>
+    <li>If you haven't created a debug configuration before, you will see three options: <strong>Debug with Node.js</strong>, <strong>Run with Node.js</strong>, and <strong>Create a launch.json file</strong>. Choose to create the JSON file.</li>
+    <li>It will generate a file named <strong>launch.json</strong> inside a folder named <strong>.vscode</strong>. Delete its contents and replace them with the following:</li>
+</ol>
+
+<pre><code>{
+    "version": "0.1.0",
+    "configurations": [
+        {
+            "type": "prophet",
+            "request": "launch",
+            "name": "Attach to Sandbox"
+        }
+    ]
+}</code></pre>
+
+<p>To start debugging, click the <strong>play button</strong> on the left side of the dropdown list.</p>
+
+<p>For instance, if you're troubleshooting a controller method that's supposed to handle user authentication, setting a breakpoint at the beginning of the method allows you to inspect the authentication flow step by step. This can help you pinpoint where things might be going wrong, whether it's a problem with variable values or logic errors.</p>
