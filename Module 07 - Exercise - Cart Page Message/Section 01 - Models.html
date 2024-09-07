@@ -1,66 +1,21 @@
-<h1>Introduction</h1>
+<h1>Getting Data with Models and Sending Data with ViewModels</h1>
 
-<p>
-We’ve discussed <strong>Controllers</strong>, <strong>Templates</strong>, and briefly mentioned <strong>ViewModels</strong> without diving into too many details. Now, we will explore the differences between <strong>Models</strong> and <strong>ViewModels</strong> and why the <strong>SFRA architecture</strong> uses ViewModels.
-</p>
+<h2>Introduction</h2>
 
-<p>
-It would be helpful if you have previous experience with the <strong>MVC pattern</strong> before going further. If that’s not the case, take a moment to <a href="
-https://www.freecodecamp.org/news/model-view-controller-mvc-explained-through-ordering-drinks-at-the-bar-efcba6255053/">check this link</a> before continuing.
-</p>
+<p>We’ve discussed <strong>Controllers</strong>, <strong>Templates</strong>, and briefly mentioned <strong>ViewModels</strong> but without many details. Now, we will explore the differences between models and view models and explain why the SFRA architecture makes use of view models. It would be beneficial to have previous experience with the <strong>MVC</strong> pattern before diving deeper, so if you don’t have this experience, take a look at this <a href="https://www.freecodecamp.org/news/model-view-controller-mvc-explained-through-ordering-drinks-at-the-bar-efcba6255053/">link</a> before continuing.</p>
 
-<h2>MVCVM: What is it?</h2>
+<p><strong>MVCVM</strong>: It’s mostly the same as the MVC pattern but with an additional layer called <strong>ViewModel</strong> (VM). In pure MVC, the <strong>Models</strong> usually represent our database tables. They are defined once and typically correspond to a table in the database. However, imagine that models can have dozens of fields. What are the chances you need all of them on a page? And consider how much unused data is being sent to the page. The more data we send, the longer the loading time. Instead, we create what we call <strong>ViewModels</strong>. To put it simply, <strong>ViewModels</strong> are objects we create specifically for the pages we want to render, containing only the data that a particular page needs.</p>
+<img src="https://sfcclearning.com/wp-content/uploads/2023/01/mvcvm-pattern-sfra.png" alt="Description of image" style="border: 1px solid black;">
 
-<p>
-<strong>MVCVM</strong> is mostly the same as the <strong>MVC pattern</strong> but with an extra layer called the <strong>ViewModel (VM)</strong>.
-</p>
+<img src="https://sfcclearning.com/wp-content/uploads/2023/01/sfcc-data-models.png" alt="Description of image" style="border: 1px solid black;">
 
-<p>
-In pure MVC, Models usually represent our database tables. They are defined once and often map directly to a table in the database. But imagine a Model having dozens of fields. 
-</p>
+<p><strong>CartModel</strong> is a customized model used to handle the data related to the shopping cart. It allows us to extend and manipulate the standard cart functionality provided by SFCC. For example, you might add custom attributes to track additional information about items in the cart or modify the way the cart calculates totals. The <strong>Cart Controller</strong>, on the other hand, manages the interactions between the cart model and the storefront. It handles requests from the user, updates the cart model accordingly, and ensures that the data is presented correctly in the view. By understanding how to extend and use these models and controllers, you can tailor the SFCC experience to better meet your business requirements.</p>
 
-<h2>Why Do We Use ViewModels?</h2>
+<img src="https://sfcclearning.com/wp-content/uploads/2023/01/storefront_base-models.png"style="border: 1px solid black;">
 
-<p>
-What are the chances you need all those fields on a single page? Sending unnecessary data slows down loading times. For example, if you're building a product page for an online bookstore, you don’t need to send the user’s entire purchase history alongside the book’s details. 
-</p>
+<img src="https://sfcclearning.com/wp-content/uploads/2023/01/cart-model.png" style="border: 1px solid black;">
 
-<p>
-Instead, we create <strong>ViewModels</strong>. These are objects tailored specifically for the pages we want to render, containing only the data required by that page.
-</p>
+<p>Did you notice that it receives the actual <strong>Basket</strong> as a parameter and adds more data when creating the model? To be sure this is really the Basket returned from the API, let’s check the <strong>Cart Controller</strong> that renders the Cart page:</p>
+<img src="https://sfcclearning.com/wp-content/uploads/2023/01/cart-controller.png"style="border: 1px solid black;">
 
-<h2>How It Works: Controllers, Models, and ViewModels</h2>
-
-<p>
-Our <strong>Controller</strong> retrieves data from the API (i.e., from Models), creates a <strong>ViewModel</strong> object (essentially a hashmap with key-value pairs), and sends it to the storefront (<strong>View</strong>).
-</p>
-
-<h3>Models</h3>
-
-<p>
-As mentioned earlier, Models typically represent our database tables. In <strong>SFCC</strong>, there are two levels of Models. 
-</p>
-
-<p>
-1. Models returned by the <strong>SFCC API</strong>.
-</p>
-
-<p>
-Using <strong>Mgr classes</strong>, we retrieve data from our API. However, there is another type of Model—one that we can access and extend. For example, we can customize models such as <strong>CartModel</strong> to meet specific needs.
-</p>
-
-<h3>Example: Customizing the CartModel</h3>
-
-<p>
-Let’s say we’re extending <strong>CartModel</strong>. Did you notice that it receives the actual <strong>Basket</strong> as a parameter and adds additional data when creating the model? To verify that it’s the Basket from the API, let’s examine the <strong>Cart Controller</strong> that renders the Cart page.
-</p>
-
-<h2>Best Practices: Extending vs. Using ViewData</h2>
-
-<p>
-In some cases, the Model and ViewModel are the same. However, the benefit of having these customizable Models is that we can extend them to fit our requirements. If you need to retrieve more data, you can simply add it to the model, and it will be available whenever you call it.
-</p>
-
-<p>
-However, this might not always be the best approach. If you only need extra data for a specific call, it might be more efficient to use <strong>getViewData</strong> and <strong>setViewData</strong> within your Controller.
-</p>
+<p>In this case, it is indeed true that our <strong>Model</strong> and <strong>ViewModel</strong> are the same, as we have just confirmed. That being said, the advantage of having these models is that we can extend them according to our own needs. For example, if we need to retrieve more data, we can simply add it to the model, and whenever we call it, that data will be included. Keep in mind, however, that this might not always be the best approach. If you need this extra data only for one specific call, it might be a better idea to use <code>getViewData</code> and <code>setViewData</code> inside your controller instead.</p>
