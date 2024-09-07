@@ -1,10 +1,13 @@
-<h1>ViewModels</h1>
-<h2>How to Access ViewModel Data</h2>
-<p>Once data is sent in our controller via <strong>setViewData()</strong> or as the second parameter in the <strong>res.render()</strong> function, it becomes accessible in our templates through the <strong>pdict</strong> variable, as we learned in previous chapters. For example, some model properties are used in the <strong>cart.isml</strong> template—take a look!</p>
-<p>As mentioned earlier, in <strong>SFCC</strong>, <strong>ViewModels</strong> are objects created specifically for the page being rendered or for the request being responded to.</p>
-<p>Whenever you see data being sent through the <strong>res.render</strong> or <strong>res.json</strong> functions, and the data is encapsulated in <code>{ }</code>, that's your ViewModel.</p>
-<p>To access this data on your page, consider it as entries in your <strong>pdict</strong> object. Let’s look at an example from the <strong>Search Controller</strong>, specifically the <strong>Refinebar endpoint</strong>.</p>
-<h2>Example: Accessing ViewModel Data in Templates</h2>
-<p>Check how the <strong>search/searchRefineBar ISML template</strong> accesses the <strong>productSearch</strong> object using the <code>{ }</code> syntax. The objects from the controller are placed inside the <strong>pdict</strong>.</p>
-<p><img style="border: 1px solid black;" src="https://sfcclearning.com/wp-content/uploads/2023/01/viewmodel.png" alt="ViewModel Example"></p>
-<p>Imagine you're creating a product filter for a clothing store. The <code>{ }</code> syntax allows you to pass only the data necessary to display product categories, sizes, and prices. This way, you're not overwhelming the page with unrelated data like customer reviews or shipping details.</p>
+<h1>How to Access ViewModel Data</h1>
+<p>Once data is sent in our controller via <strong>setViewData()</strong> or via the second parameter in the <strong>res.render()</strong> function, it will be accessible in our templates via the <strong>pdict</strong> variable, as we learned in previous chapters. In our example, some model properties are used in the <strong>cart.isml</strong> template; take a look!</p>
+<p><img style="border: 1px solid black;" src="https://sfcclearning.com/wp-content/uploads/2023/01/retrieving-viewmodel-data.png" alt="Retrieving ViewModel Data"></p>
+<h2>ViewModels</h2>
+<p>As we mentioned before, in SFCC, ViewModels are objects created specifically for the page we are rendering or the request we are responding to.</p>
+<p>Whenever you see data being sent through the <strong>res.render</strong> or <strong>res.json</strong> functions and the data is inside curly braces { }, that’s your ViewModel.</p>
+<p>To access it on your page, you just consider it as entries in your <strong>pdict</strong> object. For example, the Search Controller’s Refinebar endpoint:</p>
+<p>Check how the <strong>search/searchRefineBar ISML</strong> template accesses the <strong>productSearch</strong> object because of the { } syntax: The objects are put inside <strong>pdict</strong>.</p>
+<p><img style="border: 1px solid black;" src="https://sfcclearning.com/wp-content/uploads/2023/01/viewmodel.png" alt="ViewModel"></p>
+<h2>📝 Exercise: Extending the Cart Model</h2>
+<p>When loading the Cart page, we no longer have access to the notes (which the basket instance inherits from <strong>LineItemCtnr</strong>). But for the current project, when the user goes to the Cart page, we want to have access to those notes and, if there are none, display the following message: <strong>"You have no notes on your cart"</strong>.</p>
+<p>The basket notes are inside the basket object retrieved by <strong>BasketMgr.getCurrentBasket()</strong>. If you open the official documentation for the <strong>Basket</strong> class, you will find that it has an attribute <strong>notes</strong> containing what we want.</p>
+<p>Inside <strong>CartModel</strong>, we have the basket instance, which contains the notes array. So let's just add it to the model.</p>
