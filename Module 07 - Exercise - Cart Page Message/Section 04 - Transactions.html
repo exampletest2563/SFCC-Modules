@@ -1,45 +1,19 @@
 <h1>Transactions</h1>
 
-<p>
-When working with objects—whether System or Custom—there is an essential detail you must be aware of. You can retrieve objects as much as you want, but when it comes to creating, editing, or deleting an object, things change.
-</p>
+<p>When working with objects, whether they are <strong>System</strong> or <strong>Custom</strong>, there is one essential detail you must be aware of. You can retrieve objects as much as you want, but when you need to <strong>create</strong>, <strong>edit</strong>, or <strong>delete</strong> an object, things are different.</p>
 
-<p>
-A <strong>transaction</strong> provides a context for performing atomic changes to persistent business objects. Before a business object can be created, changed, or deleted, a transaction must be started. Changes to the business objects will only become durable when the transaction is committed.
-</p>
+<p>A <strong>transaction</strong> provides a context for performing atomic changes to persistent business objects. Before a business object can be created, changed, or deleted, a transaction must be started, and changes to the touched business objects will only be made durable when the transaction is committed.</p>
 
-<p>
-Keep in mind that whenever you need to create, change, or delete an object instance, you will need a transaction.
-</p>
+<p>Keep this in mind: whenever you need to create, change, or delete an object instance, you will need a transaction.</p>
 
 <h2>Transaction Types</h2>
 
-<p>
-There are two types of transactions: <strong>Implicit</strong> and <strong>Explicit</strong>.
-</p>
+<p>We have two types of transactions: <strong>Implicit</strong> and <strong>Explicit</strong>.</p>
 
-<h3>Implicit Transactions</h3>
+<ul>
+  <li><strong>Implicit:</strong> This is the type of transaction used in the example above. You define the code that will be inside the transaction without actually writing any <strong>BEGIN</strong> or <strong>COMMIT</strong> commands. If anything fails, the transaction will be rolled back automatically, and the changes will be undone.</li>
+  
+  <li><strong>Explicit:</strong> In this type of transaction, you are responsible for defining where the transaction begins and ends. For instance, consider a scenario where you’re managing user accounts. You might want to ensure that changes to user data are only saved if all operations, such as updating user profiles and adjusting permissions, succeed. In such cases, you explicitly define the start and end of the transaction to guarantee that either all changes are committed or none at all, preserving data integrity.</li>
+</ul>
 
-<p>
-An <strong>Implicit Transaction</strong> is like a built-in safety net. You define the code that will run within the transaction without explicitly starting or ending it. If something fails, the transaction automatically rolls back, undoing any changes.
-</p>
-
-<p>
-For example, if you’re updating a product’s details in an e-commerce platform and something goes wrong (like a network error), the implicit transaction ensures that partial updates don’t corrupt the product data.
-</p>
-
-<h3>Explicit Transactions</h3>
-
-<p>
-An <strong>Explicit Transaction</strong> gives you control over when the transaction begins and ends. You are responsible for defining these boundaries.
-</p>
-
-<p>
-For instance, if you’re managing a user’s order process, you might start a transaction when the user begins the checkout process and commit it only when all payment and shipping details are confirmed. This ensures that the entire order process is completed successfully before making any permanent changes.
-</p>
-
-<h3>Examples of Implicit and Explicit Transactions</h3>
-
-<p>
-Here are examples of both types of transactions:
-</p>
+<p>Here you can find examples of Implicit and Explicit Transactions:</p>
