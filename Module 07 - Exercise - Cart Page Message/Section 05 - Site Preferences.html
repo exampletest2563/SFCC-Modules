@@ -1,20 +1,14 @@
 <h1>Site Preferences</h1>
-
 <p>Site Preferences are another way to store and retrieve data from your sandbox and, in fact, are one of the <strong>System Object Types</strong>.</p>
-
 <h2>Check Site Preferences Fields</h2>
-
 <ol>
   <li>Go to <strong>Administration > Development > System Object Types</strong></li>
   <li>Click on the <strong>Site Preferences</strong> item</li>
   <li>Click on the <strong>Attribute Definitions</strong> tab and have a look at the fields</li>
   <li>Click on the <strong>Attribute Grouping</strong> tab and have a look at the groups that are defined.</li>
 </ol>
-
 <p>As you can see, it has many fields. A lot of things are saved as <strong>SitePreferences</strong>. Like you did with the Product System Object, try to create a new field for this object.</p>
-
 <h2>Adding Value to Site Preferences Fields</h2>
-
 <ol>
   <li>Go to <strong>Merchant Tools > Site Preferences > Custom Preferences</strong></li>
   <li>You will see that, like other System Objects, fields are organized according to the Field Groups we create.</li>
@@ -22,15 +16,40 @@
   <li>Click on the grouping you want (for example, <strong>Storefront Configs</strong>)</li>
   <li>Now you can see the values stored for each field and modify them if you want</li>
 </ol>
-
 <h2>Coding Horizons Await: Click to Navigate to a World of Innovation!</h2>
-
 <h3>Retrieve Site Preferences in Code</h3>
-
 <p>In order to retrieve any Site Preference using code, you only need to know the field’s ID and use the following code:</p>
-
 <pre><code>If you are trying to retrieve a Site Preference that was created out-of-the-box with your site:
 dw.system.Site.getCurrent().getPreferences().<id_of_the_site_preference>
-
 If you are trying to retrieve a Custom Site Preference created by you or your team:
 dw.system.Site.getCurrent().getPreferences().custom.<id_of_the_site_preference></code></pre>
+<h2>📝 Exercise: Add a New Field to the Product System Object and Display It</h2>
+<ol>
+    <li>Go to <strong>Administration > Development > System Objects Types</strong></li>
+    <li>Click on the <strong>Product</strong> item</li>
+    <li>Click on the <strong>Attribute Definitions</strong> tab</li>
+    <li>Click on <strong>New</strong></li>
+    <li>Input the following values:
+        <ul>
+            <li><strong>ID:</strong> salesforceb2c_certification_questions_com</li>
+            <li><strong>Display:</strong> New Attribute SFRA Student Guide</li>
+            <li><strong>Value Type:</strong> String</li>
+        </ul>
+    </li>
+    <li>Click <strong>Apply</strong></li>
+    <li>Click on the <strong>Attribute Grouping</strong> tab. Let's create a new Grouping</li>
+    <li>At the top of the form <strong>New Attribute Group</strong>, input the following values:
+        <ul>
+            <li><strong>ID:</strong> salesforceb2c_certification_questions_com_group</li>
+            <li><strong>Name:</strong> SFRA Student Guide Grouping</li>
+        </ul>
+    </li>
+    <li>Click <strong>Add</strong></li>
+    <li>If your new group is not being displayed, at the bottom click <strong>All</strong></li>
+    <li>Click on the number in the same row as your new grouping</li>
+    <li>Right below <strong>Assign Attribute Definition</strong>, click on the <strong>...</strong> button</li>
+    <li>In the new pop-up, write at least part of the ID of your field in the search field and click <strong>Find</strong></li>
+    <li>Click on the checkbox for your field and click <strong>Apply</strong></li>
+    <li>Click on <strong>Back</strong></li>
+    <li>Now go to any product Edit Page and search for your grouping and your field</li>
+</ol>
