@@ -1,173 +1,192 @@
+<h1>Forms Framework: Handling Commerce Cloud Forms</h1>
+<h2>Introduction</h2>
+<p>Salesforce Commerce Cloud Digital provides tools to simplify form display and processing. Use the Digital Forms framework to control how consumer-entered values are validated by the application, rendered in a browser, and possibly stored on a server.</p>
+<p>To use the Digital Forms framework, you need the following files:</p>
+<ul>
+    <li>An XML form to define and store the metadata.</li>
+    <li>A Controller that will validate and process the form.</li>
+    <li>A resource bundle (.properties) file that contains externalized form labels and possible error messages.</li>
+    <li>An ISML template that will display the form to the user.</li>
+</ul>
+<p>There are a few objects that interact with each other when working with Digital forms:</p>
+<ul>
+    <li><strong>XML metadata file:</strong> Located in the <code>cartridge/forms/default</code> directory. It describes the fields, labels, validation rules, and actions that apply when the field is used in an ISML template.</li>
+    <li><strong>ISML template:</strong> Uses the form metadata fields and actions to show an HTML form to the user.</li>
+    <li><strong>Controller:</strong> Renders your template and also processes your form data when you submit it.</li>
+    <li><strong>Resource Bundle:</strong> Contains the labels and titles that you display in your form.</li>
+    <li><strong>Object (optional):</strong> Represents a single system or custom object in the <code>pdict</code>. It can be used to pre-fill the metadata file as well as to store submitted form data in the database.</li>
+</ul>
 <h1>XML Metadata File</h1>
-<p>Identify the fields that a user will need to enter and the actions that can be taken when implementing a form. This information typically comes from a wireframe or a functional specification. Once the form fields are determined, create them in an XML form that will set the form field parameters and hold the data for the form.</p>
-<p>This table shows all elements that can be used in your XML form file (e.g., <strong>signupform.xml</strong>):</p>
-<table border="1">
-  <thead>
-    <tr>
-      <th>Element</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>form</strong></td>
-      <td>Required: top-level tag that contains all other elements inside.</td>
-    </tr>
-    <tr>
-      <td><strong>field</strong></td>
-      <td>Required: Defines data field with many attributes (see table below).</td>
-    </tr>
-    <tr>
-      <td><strong>options</strong></td>
-      <td>Use as a child element inside a field to pre-fill multiple options like months, days, etc.</td>
-    </tr>
-    <tr>
-      <td><strong>Option</strong></td>
-      <td>Use as a child element inside an options element to specify a single option.</td>
-    </tr>
-    <tr>
-      <td><strong>action</strong></td>
-      <td>Defines a possible action the user might take on the form.</td>
-    </tr>
-    <tr>
-      <td><strong>include</strong></td>
-      <td>Allows inclusion of one form metadata definition into another.</td>
-    </tr>
-    <tr>
-      <td><strong>list</strong></td>
-      <td>Allows inclusion of several items (i.e., the collection of addresses) as a single field.</td>
-    </tr>
-    <tr>
-      <td><strong>group</strong></td>
-      <td>Allows grouping of elements to be validated together.</td>
-    </tr>
-  </tbody>
+<p>Identify the fields that a user will need to enter and the actions that can be taken when implementing a form.</p>
+<p>This information typically comes from a wireframe or a functional specification. Once the form fields are determined, create them in an XML form that will set the form field parameters and hold the data for the form.</p>
+<p>This table shows all elements that can be used in your XML form file, e.g., <code>signupform.xml</code>:</p>
+<table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+    <thead>
+        <tr>
+            <th style="border: 1px solid black; padding: 8px; text-align: left; background-color: #f2f2f2;">Element</th>
+            <th style="border: 1px solid black; padding: 8px; text-align: left; background-color: #f2f2f2;">Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>form</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">Required: top-level tag that contains all other elements inside.</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>field</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">Required: Defines a data field with many attributes (see table below).</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>options</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">Use as a child element inside a field to pre-fill multiple options like months, days, etc.</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>option</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">Use as a child element inside an options element to specify a single option.</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>action</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">Defines a possible action the user might take on the form.</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>include</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">Allows inclusion of one form metadata definition into another.</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>list</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">Allows inclusion of several items (i.e., the collection of addresses) as a single field.</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>group</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">Allows grouping of elements to be validated together.</td>
+        </tr>
+    </tbody>
 </table>
 <p>The <strong>field</strong> element may use the following attributes:</p>
-<table border="1">
-  <thead>
-    <tr>
-      <th>Attribute</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>formid</strong></td>
-      <td>Required: unique ID to identify the field for ISML templates and controllers.</td>
-    </tr>
-    <tr>
-      <td><strong>type</strong></td>
-      <td>Required: data type for the field (see table below to check accepted values).</td>
-    </tr>
-    <tr>
-      <td><strong>range-error</strong></td>
-      <td>Message shown if value provided does not fall within the specified range.</td>
-    </tr>
-    <tr>
-      <td><strong>parse-error</strong></td>
-      <td>Message shown when the data entered does not match the regex. Usually a key to an externalized string.</td>
-    </tr>
-    <tr>
-      <td><strong>value-error</strong></td>
-      <td>Shown if an element is invalidated in a pipeline.</td>
-    </tr>
-    <tr>
-      <td><strong>missing-error</strong></td>
-      <td>Message shown if the primary key validation error is generated in a pipeline.</td>
-    </tr>
-    <tr>
-      <td><strong>label</strong></td>
-      <td>Usually a key to an externalized string in the forms.properties resource bundle.</td>
-    </tr>
-    <tr>
-      <td><strong>regexp</strong></td>
-      <td>Regular expression for string fields: email, phone, zip code, etc.</td>
-    </tr>
-    <tr>
-      <td><strong>description</strong></td>
-      <td>Description for the field; might be used in tooltips.</td>
-    </tr>
-    <tr>
-      <td><strong>mandatory</strong></td>
-      <td>The field is required via server-side validation when true.</td>
-    </tr>
-    <tr>
-      <td><strong>min, max</strong></td>
-      <td>The valid range for integer, number, and dates.</td>
-    </tr>
-    <tr>
-      <td><strong>min-length, max-length</strong></td>
-      <td>Restricts the field length for data entry.</td>
-    </tr>
-    <tr>
-      <td><strong>binding</strong></td>
-      <td>Used to match field to a persistent object attribute.</td>
-    </tr>
-    <tr>
-      <td><strong>masked</strong></td>
-      <td>Specify number of characters to mask.</td>
-    </tr>
-    <tr>
-      <td><strong>format</strong></td>
-      <td>The format for display of dates, numbers, etc.</td>
-    </tr>
-    <tr>
-      <td><strong>whitespace</strong></td>
-      <td>Specify whitespace handling (none or remove).</td>
-    </tr>
-    <tr>
-      <td><strong>timezoned</strong></td>
-      <td>Optional flag for date objects (true or false).</td>
-    </tr>
-    <tr>
-      <td><strong>default-value</strong></td>
-      <td>Pre-defines a value for a field.</td>
-    </tr>
-    <tr>
-      <td><strong>checked-value</strong></td>
-      <td>Value when the field is checked in a form.</td>
-    </tr>
-    <tr>
-      <td><strong>unchecked-value</strong></td>
-      <td>Value when the field is unchecked in a form.</td>
-    </tr>
-  </tbody>
+<table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+    <thead>
+        <tr>
+            <th style="border: 1px solid black; padding: 8px; text-align: left; background-color: #f2f2f2;">Attributes</th>
+            <th style="border: 1px solid black; padding: 8px; text-align: left; background-color: #f2f2f2;">Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>formid</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">Required: unique ID to identify the field for ISML templates and controllers.</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>type</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">Required: data type for field (see table below to check accepted values).</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>range-error</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">(*) Message shown if the value provided does not fall within the specified range.</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>parse-error</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">(*) Message shown when the data entered does not match the regex. Usually a key to an externalized string.</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>value-error</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">(*) Shown if an element is invalidated in a pipeline.</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>missing-error</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">(*) Message shown if the primary key validation error is generated in a pipeline.</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>label</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">Usually a key to an externalized string in the <code>forms.properties</code> resource bundle.</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>regexp</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">Regular expression for string fields: email, phone, zip code, etc.</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>description</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">Description for the field; might be used in tooltips.</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>mandatory</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">The field is required via server-side validation when true.</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>min, max</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">The valid range for integer, number, and dates.</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>min-length, max-length</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">Restricts the field length for data entry.</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>binding</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">Used to match field to a persistent object attribute.</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>masked</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">Specify the number of characters to mask.</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>format</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">The format for the display of dates, numbers, etc.</td>
+        </tr>
+        <tr>
+                    <td style="border: 1px solid black; padding: 8px;"><strong>whitespace</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">Specify whitespace handling (none or remove).</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>timezoned</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">Optional flag for date objects (true or false).</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>default-value</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">Pre-defines a value for a field.</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>checked-value</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">Value when the field is checked in a form.</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>unchecked-value</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">Value when the field is unchecked in the form.</td>
+        </tr>
+    </tbody>
 </table>
-<p>There are four types of errors: <strong>range-error</strong>, <strong>parse-error</strong>, <strong>missing-error</strong>, and <strong>value-error</strong>. And two required attributes: <strong>formid</strong> and <strong>type</strong>. For definitions, read the cell that contained the sign (*).</p>
-<p>Data types to be used for the <strong>type</strong> attribute on the <code>&lt;field&gt;</code> element can be as follows:</p>
-<table border="1">
-  <thead>
-    <tr>
-      <th>Data Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>string</strong></td>
-      <td>Use for text data.</td>
-    </tr>
-    <tr>
-      <td><strong>integer</strong></td>
-      <td>Use for numeric data like days, months.</td>
-    </tr>
-    <tr>
-      <td><strong>number</strong></td>
-      <td>Use for quantity fields.</td>
-    </tr>
-    <tr>
-      <td><strong>boolean</strong></td>
-      <td>Use with multiple-choice fields.</td>
-    </tr>
-    <tr>
-      <td><strong>date</strong></td>
-      <td>Use this when <strong>timezoned</strong> or <strong>format</strong> are needed for dates.</td>
-    </tr>
-  </tbody>
+<p>There are four types of error: <strong>range-error</strong>, <strong>parse-error</strong>, <strong>missing-error</strong>, and <strong>value-error</strong>. The <strong>formid</strong> and <strong>type</strong> attributes are required. For definitions, read the cells that contain the sign (*).</p>
+<p>Data types to be used for the <code>type</code> attribute on the <code>&lt;field&gt;</code> element can be as follows:</p>
+<table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+    <thead>
+        <tr>
+            <th style="border: 1px solid black; padding: 8px; text-align: left; background-color: #f2f2f2;">Data type</th>
+            <th style="border: 1px solid black; padding: 8px; text-align: left; background-color: #f2f2f2;">Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>string</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">Use for text data.</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>integer</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">Use for numeric data like days, months.</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>number</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">Use for quantity fields.</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>boolean</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">Use with multiple-choice fields.</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px;"><strong>date</strong></td>
+            <td style="border: 1px solid black; padding: 8px;">Use this when <strong>timezoned</strong> or <strong>format</strong> are needed for dates.</td>
+        </tr>
+    </tbody>
 </table>
-<p><img style="border: 1px solid black;" src="https://sfcclearning.com/wp-content/uploads/2023/01/sfcc-form-xml.png"></p>
+<p><img src="https://sfcclearning.com/wp-content/uploads/2023/01/sfcc-form-xml.png" style="border: 1px solid black;" alt="XML Form Example"></p>
 <p>In this example, the fields <strong>firstname</strong>, <strong>lastname</strong>, and others store some of the information needed in the user profile. You will notice that some fields are mandatory because of the attribute <code>mandatory="true"</code>.</p>
-<p>Also, all of them contain <strong>label</strong> keys that point to the <strong>cartridge/templates/resources/forms.properties</strong> file (by default, labels used on forms are defined inside this file).</p>
-<p>Finally, the <strong>postalCode</strong> field has an extra requirement. It uses a regular expression (<strong>regexp</strong>) to define what an acceptable postal code can be and specifies a <strong>parse-error</strong> key that matches an error message in the <strong>forms.properties</strong> file.</p>
+<p>Also, all of them contain label keys that point to the <code>cartridge/templates/resources/forms.properties</code> file (by default, labels used on forms are defined inside this file).</p>
+<p>Finally, the <strong>postalCode</strong> field has an extra requirement. It uses a regular expression (<strong>regexp</strong>) to define what an acceptable postal code can be and specifies a <strong>parse-error</strong> key that matches an error message in the <code>forms.properties</code> file.</p>
 <p>The <strong>action</strong> tag, when present, identifies the possible actions that a user may take on the form. The attribute <code>valid-form="true"</code> in this tag means that this form requires validation: the mandatory fields will be enforced on the server-side.</p>
