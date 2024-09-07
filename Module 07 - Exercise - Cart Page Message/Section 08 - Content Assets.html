@@ -1,0 +1,35 @@
+<h2>Content Assets</h2>
+<p>Content management is a very important topic when working on SFCC projects. How do we store content? Who creates and maintains this content? What kind of content can be stored?</p>
+<p>The amount and variety of content depend on the site. Some sites display simple text, while others show a complicated array of asset types. Sites typically display content on how to use their products, profiles of customers wearing their products, and even detailed explanations of techniques related to products, such as composting and mulching for a gardening site.</p>
+<p>The most common way to store and use this content is through <strong>content assets</strong>, organized into <strong>library folders</strong> for easier retrieval, and <strong>content slots</strong>.</p>
+<h2>Content Assets in Commerce Cloud</h2>
+<p>In Commerce Cloud, a content asset is a <strong>database object with attributes</strong>. You can extend the object with its own attributes using the metadata system. The most common usage for content assets is to contain <strong>HTML</strong> that displays on the storefront as a standalone page or embedded within another page.</p>
+<p>Content assets are typically used for <strong>information that changes infrequently</strong>, such as an about us page or apparel sizing tables. These HTML blocks can reference images that are stored in a special area of the file system for content-related static files.</p>
+<h3>Why Use Content Assets?</h3>
+<p>But there is something else worth mentioning. If you analyze some content assets’ bodies, you will notice that some of them contain only text. So, why use content assets instead of storing the text inside Resource Bundle files (.properties)? <strong>Because by storing information in Content Assets, we make it possible for the Merchant to modify it whenever he wants.</strong></p>
+<p>So the decision of whether to store text inside a Content Asset or in Resource Bundles will sometimes be based on the fact that <strong>the Merchant will want to be able to modify the content him/herself</strong>.</p>
+<p>As a Commerce Cloud Software Developer, especially if you are a Frontend Developer, dealing with Content Assets will be part of your daily life, so it is of <strong>utmost importance</strong> that you know how to handle them.</p>
+<h2>Content Assets Menu</h2>
+<p>First of all, let’s find where Content Assets are kept. Since they are something used by Merchants, it only makes sense for them to be in the <strong>Merchant Tools</strong> menu. Once there, go to <strong>Content > Content Assets</strong>. Once you click it, the Content Assets management page will be displayed for you.</p>
+<p><img style="border: 1px solid black;" src="https://sfcclearning.com/wp-content/uploads/2023/01/content-assets-menu.png" alt="Content Assets Menu"></p>
+<p><strong>Before we move on</strong>, one very important piece of information. Did you notice at the top that it says Merchant Tools > Content > Libraries > RefArchSharedLibrary > Content?</p>
+<p>Where did this <strong>RefArchSharedLibrary</strong> come from? It is actually the name of the metadata file containing the definitions and data from all content assets in your RefArchGlobal site.</p>
+<h2>Content Assets Structure</h2>
+<p>Let’s explore what information we can store in a content asset by opening the about-us asset. The first thing you will notice when you open a Content Asset is a warning at the top: <strong>You haven’t locked this content for editing.</strong> Click Lock if you need to edit the content. You have seen this same warning when playing with products, right? So to be able to edit it, make sure you click on Lock.</p>
+<p>Now, check the fields being displayed:</p>
+<p><img style="border: 1px solid black;" src="https://sfcclearning.com/wp-content/uploads/2023/01/editing-about-us-content-asset-sfcc.png" alt="Editing About Us Content Asset"></p>
+<p>As you can see, some fields such as <strong>Online</strong> and <strong>Searchable</strong> have the value <strong>Default</strong> by default, which means it is applied to every site, but you also have the option to apply different behaviors to different sites.</p>
+<p>That’s the moment you realize you/the merchant can create <strong>content that can be used across many sites with different behaviors</strong>, but without having to duplicate the content.</p>
+<h3>Types of Content</h3>
+<p>Now let’s check the field named Body, at the bottom:</p>
+<p><img style="border: 1px solid black;" src="https://sfcclearning.com/wp-content/uploads/2023/01/content-asset-body.png" alt="Content Asset Body"></p>
+<p>The first thing you notice: <strong>It is HTML!</strong> So it means we can do a lot of customization in content assets. But of course, not all merchants will know HTML. We can also use just pure text, and the coolest part, include media! Click on the HTML Editor link. A popup should open for you:</p>
+<p><img style="border: 1px solid black;"  src="https://sfcclearning.com/wp-content/uploads/2023/01/content-asset-html-editor.png" alt="Content Asset HTML Editor"></p>
+<p>Have you noticed there is no HTML being displayed anymore? That’s because the content of the field body displays the raw content that is created from this HTML Editor. So in this popup, we can do all sorts of things, from creating tables to adding images (the icon that looks like a country flag), and after we click OK, the correct HTML will be generated back to the field.</p>
+<p>This means that the merchant doesn’t really have to know HTML unless very specific customization is needed, such as changing a CSS class or changing the HTML tags for some reason.</p>
+<p>Finally, the last field to pay attention to is the one named <strong>Rendering Template</strong>. Why should you pay attention to it? Because it is useful if there is a need to create unique pages with an alternative header, footer, and decorator to the page.</p>
+<h2>Grouping Content Assets Using Folders</h2>
+<p>Now that you know about the importance of Content Assets, let’s learn about <strong>Folders</strong>, an internal structure in Business Manager which is very useful to organize Content Assets.</p>
+<p>You can use the Business Manager to define or edit a <strong>hierarchical folder structure</strong> for your content assets. The Library folder page shows the subfolders that exist in your site library, which can be either a private or a shared library.</p>
+<p>All folders can contain content assets. You can organize content assets in more than one folder or subfolder. Folders are located close to the Content Assets menu:</p>
+<p><img style="border: 1px solid black;" src="https://sfcclearning.com/wp-content/uploads/2023/01/library-folders.png" alt="Library Folders"></p>
