@@ -1,1 +1,29 @@
+<h1>ViewModels</h1>
 
+<h2>How to Access ViewModel Data</h2>
+
+<p>
+Once data is sent in our controller via <strong>setViewData()</strong> or as the second parameter in the <strong>res.render()</strong> function, it becomes accessible in our templates through the <strong>pdict</strong> variable, as we learned in previous chapters. For example, some model properties are used in the <strong>cart.isml</strong> template—take a look!
+</p>
+
+<p>
+As mentioned earlier, in <strong>SFCC</strong>, <strong>ViewModels</strong> are objects created specifically for the page being rendered or for the request being responded to.
+</p>
+
+<p>
+Whenever you see data being sent through the <strong>res.render</strong> or <strong>res.json</strong> functions, and the data is encapsulated in <code>{ }</code>, that's your ViewModel.
+</p>
+
+<p>
+To access this data on your page, consider it as entries in your <strong>pdict</strong> object. Let’s look at an example from the <strong>Search Controller</strong>, specifically the <strong>Refinebar endpoint</strong>.
+</p>
+
+<h2>Example: Accessing ViewModel Data in Templates</h2>
+
+<p>
+Check how the <strong>search/searchRefineBar ISML template</strong> accesses the <strong>productSearch</strong> object using the <code>{ }</code> syntax. The objects from the controller are placed inside the <strong>pdict</strong>.
+</p>
+
+<p>
+Imagine you're creating a product filter for a clothing store. The <code>{ }</code> syntax allows you to pass only the data necessary to display product categories, sizes, and prices. This way, you're not overwhelming the page with unrelated data like customer reviews or shipping details.
+</p>
