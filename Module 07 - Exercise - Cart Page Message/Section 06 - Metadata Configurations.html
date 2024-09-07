@@ -1,9 +1,6 @@
 <h1>XML Metadata File</h1>
-
 <p>Identify the fields that a user will need to enter and the actions that can be taken when implementing a form. This information typically comes from a wireframe or a functional specification. Once the form fields are determined, create them in an XML form that will set the form field parameters and hold the data for the form.</p>
-
 <p>This table shows all elements that can be used in your XML form file (e.g., <strong>signupform.xml</strong>):</p>
-
 <table border="1">
   <thead>
     <tr>
@@ -46,9 +43,7 @@
     </tr>
   </tbody>
 </table>
-
 <p>The <strong>field</strong> element may use the following attributes:</p>
-
 <table border="1">
   <thead>
     <tr>
@@ -139,11 +134,8 @@
     </tr>
   </tbody>
 </table>
-
 <p>There are four types of errors: <strong>range-error</strong>, <strong>parse-error</strong>, <strong>missing-error</strong>, and <strong>value-error</strong>. And two required attributes: <strong>formid</strong> and <strong>type</strong>. For definitions, read the cell that contained the sign (*).</p>
-
 <p>Data types to be used for the <strong>type</strong> attribute on the <code>&lt;field&gt;</code> element can be as follows:</p>
-
 <table border="1">
   <thead>
     <tr>
@@ -174,11 +166,8 @@
     </tr>
   </tbody>
 </table>
-
+<p><img style="border: 1px solid black;" src="https://sfcclearning.com/wp-content/uploads/2023/01/sfcc-form-xml.png"></p>
 <p>In this example, the fields <strong>firstname</strong>, <strong>lastname</strong>, and others store some of the information needed in the user profile. You will notice that some fields are mandatory because of the attribute <code>mandatory="true"</code>.</p>
-
 <p>Also, all of them contain <strong>label</strong> keys that point to the <strong>cartridge/templates/resources/forms.properties</strong> file (by default, labels used on forms are defined inside this file).</p>
-
 <p>Finally, the <strong>postalCode</strong> field has an extra requirement. It uses a regular expression (<strong>regexp</strong>) to define what an acceptable postal code can be and specifies a <strong>parse-error</strong> key that matches an error message in the <strong>forms.properties</strong> file.</p>
-
 <p>The <strong>action</strong> tag, when present, identifies the possible actions that a user may take on the form. The attribute <code>valid-form="true"</code> in this tag means that this form requires validation: the mandatory fields will be enforced on the server-side.</p>
