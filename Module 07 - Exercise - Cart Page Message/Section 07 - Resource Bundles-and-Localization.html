@@ -1,0 +1,30 @@
+<h2>Resource Bundles</h2>
+<p>In storefront code, we should avoid hard-coding text strings. Titles, labels, messages, buttons, and field names should all be externalized by using resource bundles (a.k.a. properties files).</p>
+<p>If you do not want to duplicate ISML templates in order to create locale-specific templates, you can use resource bundles to keep your template generic and reusable.</p>
+<p>A resource bundle is a file with a .properties extension that contains the hardcoded strings to be used in ISML templates. In SFRA, bundles are loosely named by the functional area where the strings are used, but you can use any file name and organization you want.</p>
+<p>By default, they are always located at <code>&lt;cartridge_name&gt;\cartridge\templates\resources</code>.</p>
+
+<h3>Key-Value Pairs and Parameter Replacement</h3>
+<p>The resource bundles contain key=value pairs, where the key might be compound (e.g., key.subkey), and the value is a hard-coded string that uses Java MessageFormat syntax to implement parameter replacement.</p>
+<p>Strings from the bundles are accessible to all ISML templates through two methods from the API:</p>
+<ul>
+    <li><strong>Resource.msg:</strong> Use it when you only need to retrieve a value.</li>
+    <li><strong>Resource.msgf:</strong> Use it when you need to retrieve a value, passing a parameter that will replace a placeholder (e.g., {0}).</li>
+</ul>
+
+<h3>Example of Resource Usage</h3>
+<p>More information can be found <a href="https://documentation.b2c.commercecloud.salesforce.com/DOC1/index.jsp?topic=%2Fcom.demandware.dochelp%2FDWAPI%2Fscriptapi%2Fhtml%2Fapi%2Fclass_dw_web_Resource.html">here</a>.</p>
+<p>See some examples of how to define these key=value pairs and how to use them:</p>
+<p>Did you notice that some have values like {0} and {1}? These are placeholders that will be dynamically replaced by parameters you pass when using <code>Resource.msgf</code>.</p>
+<p>After the third parameter, you can pass any number of values you want as parameters, and inside the resource bundle, they will be identified by {}, starting from 0 and incrementing by 1 for each extra parameter you pass.</p>
+<p>That’s the biggest difference between both methods. One retrieves hard-coded strings that don’t accept parameters, and the other accepts parameters.</p>
+<p><img style="border: 1px solid black;" src="https://sfcclearning.com/wp-content/uploads/2023/01/resources.png" alt="Resources Example"></p>
+<p><img style="border: 1px solid black;" src="https://sfcclearning.com/wp-content/uploads/2023/01/resources-properties.png" alt="Resources Properties"></p>
+<p><img style="border: 1px solid black;" src="https://sfcclearning.com/wp-content/uploads/2023/01/resource-msgf.png" alt="Resource msgf Example"></p>
+
+<h2>Localization</h2>
+<p>You might be wondering: "Okay, but what do we do when we need the site to support multiple languages or when the site must look different for different countries/languages?"</p>
+<p>For templates, you will create a folder with the country_language code and replicate the subfolders and files from the default folder.</p>
+<p>For Resource Bundles, you will append the country_language code to the name of the file and add the translations to each corresponding file:</p>
+<p><img style="border: 1px solid black;" src="https://sfcclearning.com/wp-content/uploads/2023/01/localizing-templates.png" alt="Localizing Templates Example"></p>
+<p><img style="border: 1px solid black;" src="https://sfcclearning.com/wp-content/uploads/2023/01/localizing-templates.png" alt="Localizing Templates Example"></p>
