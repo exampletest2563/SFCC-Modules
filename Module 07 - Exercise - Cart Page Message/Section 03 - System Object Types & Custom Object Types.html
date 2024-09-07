@@ -1,52 +1,86 @@
-<h1>Introduction</h1>
-<p>We are going to learn about two important SFCC features that allow us to persist and retrieve data from Business Manager. The first is called <strong>Objects</strong>, and there are two types: <strong>System</strong> and <strong>Custom</strong>. The second is called <strong>Site Preferences</strong>.</p>
-<h1>Objects</h1>
-<p> How do you think Business Manager stores <strong>Products</strong>, <strong>Catalogs</strong>, or <strong>Categories</strong>? How does the API work with them? </p>
-<p> Previously, you worked with Controllers, calling classes from the <strong>SFCC API</strong> to retrieve data from Business Manager. The objects you manipulate are actually stored in Business Manager as tables. </p>
-<h2>System Objects</h2>
-<p> The first type of object that can be saved into Business Manager is called a <strong>System Object</strong>. But why are they called System Objects? It’s simpler than you might think: they come out-of-the-box when you receive your sandbox. </p>
+<h1>System and Custom Objects. SFCC B2C Site Preferences</h1>
+<h2>Introduction</h2>
+<p>We are going to learn about two important SFCC features, which allow us to persist and retrieve data from Business Manager. The first one is called Objects, and we have two types: System and Custom. The second one is called Site Preferences.</p>
+<h2>Objects</h2>
+<p>How do you think Business Manager stores Products, Catalogs, or Categories? How does the API work with them?</p>
+<p>Previously, you were working with Controllers, calling some classes from the SFCC API to get data back from your Business Manager. These objects that you are manipulating are actually stored in Business Manager as tables.</p>
+<h3>System Objects</h3>
+<p>The first type of object that can be saved into Business Manager is called a System Object. To begin with, do you know why they are called System objects? It’s simpler than you might think: they come already out-of-the-box when you receive your sandbox.</p>
 <h3>System Object Types</h3>
-<p> Let’s take a look at the System Objects provided out-of-the-box: Go to <strong>Administration > Development > System Objects Types</strong>. </p>
-<p><img style="border: 1px solid black;" src="https://sfcclearning.com/wp-content/uploads/2023/01/system-object-types.png"></p>
-<p> Do you recognize the items marked by the green arrows? These are some of the System Objects we've worked with in previous chapters. </p>
+<p>Let’s have a look at the system objects that we are provided out-of-the-box: Go to Administration > Development > System Objects Types</p>
+<p><img style="border: 1px solid black;" src="https://sfcclearning.com/wp-content/uploads/2023/01/system-object-types.png" alt="System Object Types"></p>
+<p>Do you recognize the items pointed to by the green arrows? They are some of the system objects we have been working on in previous chapters.</p>
 <h3>Check System Object Fields</h3>
 <ul>
-    <li>Go to <strong>Administration > Development > System Objects Types</strong>.</li>
-    <li>Click on the <strong>Product</strong> item.</li>
-    <li>Click on the <strong>Attribute Definitions</strong> tab.</li>
-    <li>At the bottom, click <strong>Show All</strong>.</li>
+<li>Go to Administration > Development > System Objects Types</li>
+<li>Click on the Product item</li>
+<li>Click on the Attribute Definitions tab</li>
+<li>At the bottom, click to Show All</li>
 </ul>
-<p> As you can see, the <strong>Product</strong> object has almost 100 fields! But, as we recall from earlier modules, we didn’t see that many fields when editing products. So, what’s going on? </p>
-<p> Although objects may have many fields, to avoid clutter, we limit which fields are displayed when creating or editing an object. If you check any Product, you’ll notice that only a portion of the available fields are visible. </p>
-<h3>Check Displayed Fields in the Edit Page</h3>
+<p>As you can see, the Product Object has almost 100 fields! But as far as we remember, we did not see that many fields when we were editing products a few modules ago. So what is going on?</p>
+<p>Although your objects can have many fields, to avoid cluttering the screen, we can limit which fields are displayed when we create/edit an instance of that object. If you go back to check any Product, you will notice that not even half of the fields we just saw are listed there.</p>
+<p>So how do we decide which fields are displayed?</p>
+<h3>Check Which Fields Are Displayed in the Edit Page</h3>
 <ul>
-    <li>Go to <strong>Administration > Development > System Objects Types</strong>.</li>
-    <li>Click on the <strong>Product</strong> item.</li>
-    <li>Click on the <strong>Attribute Grouping</strong> tab.</li>
-    <li>In the <strong>Name</strong> column, you’ll see groupings with a number representing the fields inside that group.</li>
-    <li>Click on <strong>Search Engine Optimization Support</strong>: You’ll see four fields listed: <em>Page Title</em>, <em>Page Description</em>, <em>Page Keywords</em>, and <em>Page URL</em>.</li>
+<li>Go to Administration > Development > System Objects Types</li>
+<li>Click on the Product item</li>
+<li>Click on the Attribute Grouping tab</li>
+<li>Check the names in the Name column: In the Attributes column, you will see a number per row. That number represents the number of fields inside that grouping.</li>
+<li>Click on the number related to Search Engine Optimization Support: You will see 4 fields listed: Page Title, Page Description, Page Keywords, and Page URL</li>
+<li>Now open any product and check if these same fields are listed under the Search Engine Optimization Support set.</li>
 </ul>
-<p> Now, open any Product and check if those same fields are listed under the <strong>Search Engine Optimization Support</strong> set. </p>
-<h3>System Objects vs. Custom Objects: A Comparison</h3>
-<p> <strong>System Objects</strong> come predefined with your <strong>SFCC sandbox</strong>. They serve common purposes like representing products, catalogs, and customer data. These objects cannot be modified structurally (i.e., you can’t add or remove object types), but you can customize how they behave and which fields are displayed. </p>
-<p> <strong>Custom Objects</strong>, on the other hand, allow you to extend the capabilities of the platform. Think of them as a blank canvas where you can define your own table structure and fields. Custom Objects are perfect for scenarios where the built-in System Objects don’t meet your business needs. </p>
-<p> <strong>Example:</strong> Let’s say you’re building a loyalty program. While you could attempt to squeeze loyalty points into the Customer System Object, it’s far more efficient to create a Custom Object specifically for loyalty points. This way, your loyalty program can evolve independently of the Customer data model, keeping everything organized. </p>
-<h3>One Last Detail</h3>
-<p> As we mentioned earlier, System Objects are out-of-the-box and cannot be created or removed. If you want a new object type, Custom Objects are the way to go. </p>
+<p>As you can see, this way we can customize all object pages to show the fields that we want to and hide everything else that we don’t think is necessary for that project.</p>
+<p>One last important detail: as we mentioned at the beginning of this module, System Objects come out-of-the-box with your Business Manager. This means you can’t create new System Object Types. If you want a new type of Object, then we should see Custom Objects.</p>
 <h2>Custom Objects</h2>
-<p> <strong>Custom Objects</strong> enable you to extend the Salesforce B2C Commerce model to suit your business needs. They function as new tables in the database, where you can specify the primary key and define storage attributes (columns). </p>
+<p>Custom objects enable you to extend the Salesforce B2C Commerce model to suit your business needs. They are essentially a new table in the database where you specify the primary key and storage attributes (columns) that meet your business needs.</p>
 <h3>Custom Objects Creation</h3>
-<p> An example of using Custom Objects is a newsletter subscription. While the platform doesn’t natively support this, Custom Objects allow you to build such functionality.  </p>
-<p> You wouldn’t add newsletter subscription data to the <strong>Profile System Object</strong>, as that would limit sign-ups to registered users. Instead, you can create a <strong>Newsletter Custom Object</strong> to allow anyone to subscribe. </p>
-<h3>Using Script API to Create Custom Object Instances</h3>
-<p> The Salesforce B2C Commerce Cloud Script API provides classes in the <strong>dw.object</strong> package, such as: </p>
+<p>An example of Custom Object usage is a newsletter. Customers can sign up for it, but the platform does not have a system capable of supporting it.</p>
+<p>These subscriptions are intended for export since the platform should not be used for mass mailing campaigns. It is tempting to add the subscription data to the Profile system object, but this would imply that only registered users would be able to sign up.</p>
+<p>To enable anyone to get a newsletter, you need to define a Custom Object to represent it.</p>
+<p>This Newsletter Custom Object should not be replicable since subscriptions created in staging should not be copied to Production. However, depending on the situation, you might want your Custom Object to be replicable.</p>
+<p>You also need to consider how to clean up Custom Objects once they have been exported or after a certain expiration period. This means creating a cleanup batch job that should run on a schedule. You can either create custom objects using Business Manager or programmatically.</p>
+<p>You use two Business Manager modules to define and manage your custom objects:</p>
 <ul>
-    <li><strong>CustomAttributes:</strong> Custom attributes defined in Business Manager.</li>
-    <li><strong>CustomObject:</strong> Represents a Custom Object instance.</li>
-    <li><strong>CustomObjectMgr:</strong> Allows for Custom Object creation, retrieval, and deletion.</li>
+<li><strong>Custom Object Definitions</strong>: Facilitates naming, primary key, and column specification. It is located in Administration > Site Development.</li>
+<li><strong>Custom Object Editor</strong>: Facilitates instance creation and editing. It is located in Site – <site> > Custom Objects > Custom Object Editor.</li>
 </ul>
-<p> Here’s an example of creating a Custom Object instance programmatically: </p>
-<pre> CustomObjectMgr.createCustomObject("NewsletterSubscription", UUIDUtils.createUUID()); </pre>
-<p> This code creates a Custom Object instance for a newsletter subscription with a system-generated unique primary key. </p>
+<p>Before you can create a custom object instance, you must first define the custom object data type in Business Manager.</p>
+<p>Custom Objects can also store configuration parameters to integrate with external systems, avoiding the need to create multiple Site Preferences. These Custom Objects need to be replicable if the settings made in Staging are suitable for Production.</p>
+<h3>Using Script API to Create Custom Object Instances</h3>
+<p>Salesforce B2C Commerce Cloud Script API provides the following classes in the <strong>dw.object</strong> package, among others:</p>
+<ul>
+<li><strong>CustomAttributes</strong>: Attributes defined by a user in Business Manager to extend a system object or Custom Object. Accessible via the syntax: <instancename>.custom.<attributename>.</li>
+<li><strong>CustomObject</strong>: Represents an instance of a Custom Object.</li>
+<li><strong>CustomObjectMgr</strong>: Enables Custom Object instance creation, retrieval, deletion, and searching.</li>
+<li><strong>PersistentObject</strong>: Enables persistent storage.</li>
+<li><strong>ExtensibleObject</strong>: Enables custom attributes to be added.</li>
+</ul>
+<p>Custom Objects persist in the database. Objects of these class types are saved in the database and can be extended to store extra attributes.</p>
+<p>The following use of the <strong>CustomObjectMgr</strong> class enables the creation of an instance of Custom Objects by providing the Custom Object type and the primary key:</p>
+<p><code>CustomObjectMgr.createCustomObject("NewsletterSubscription", UUIDUtils.createUUID());</code></p>
+<p>The code above creates an instance with a system-generated, unique Primary Key. You could also use any other unique value, such as an email sent by the form submission. If the value is not unique, a duplicate PK error occurs. Before creating Custom Object instances with IDs that are not system-generated, it is a good practice to always check if an instance with the value you want to use as PK doesn’t already exist.</p>
+<h3>📝 Exercise: Creating a New Custom Object Type Using Business Manager</h3>
+<ul>
+<li>Select Administration → Site Development → Custom Object Types.</li>
+<li>Click New to create a new Custom Object type.</li>
+<li>Fill in the required fields for the Custom Object type:
+<ul>
+<li>ID: The unique ID of the object type. It cannot contain spaces.</li>
+<li>Key Attribute: This is the unique key for the custom object type.</li>
+<li>Data Replication: Specify whether the custom object type data will be replicable to other instances.</li>
+<li>Storage Scope: Specify whether the custom object type will be available for a site or for the entire organization.</li>
+</ul>
+</li>
+<li>Click Apply. The Attribute Definitions and Attribute Grouping tabs become available.</li>
+<li>Click the Attribute Definitions tab. Notice the default values created with your Custom Object type. These values cannot be changed once they are created.</li>
+<li>When you are finished adding attribute definitions, create an Attribute Group. Click the Attribute Grouping tab.</li>
+<li>In the ID field, enter a name for your grouping. In the Name field, enter a name. Click Add.</li>
+<li>Add field attributes to the group. Click the Edit link.</li>
+<li>To the right of the ID field, click the ellipses to select field attributes.</li>
+<li>Select the attributes you wish to add from the list by clicking the checkbox next to each one. Click Select.</li>
+</ul>
 <h2>Storage Scope and Replication</h2>
-<p> Custom Objects can be scoped either by <strong>Organization</strong> or <strong>Site</strong>, defining their visibility. Additionally, you can specify if Custom Object instances should be replicable from staging to production. </p>
+<p>One thing that we did not discuss in the System Objects section was Scope because it was not necessary at that point, but now is the time for you to know about it.</p>
+<p>Let’s first define what scope is. Consider Scope as the visibility of the object. Who or what can see and use it. We have two options: Organization or Site.</p>
+<p>This means that Custom Objects can be created to be visible to all storefronts (Organization) or just for a specific Storefront (Site) in your sandbox. It will really depend on your project.</p>
+<p>The Custom Object type itself is always available to the entire organization. Also, you can specify if you want Custom Object instances to be replicable.</p>
