@@ -1,19 +1,16 @@
 <h1>Transactions</h1>
-
 <p>When working with objects, whether they are <strong>System</strong> or <strong>Custom</strong>, there is one essential detail you must be aware of. You can retrieve objects as much as you want, but when you need to <strong>create</strong>, <strong>edit</strong>, or <strong>delete</strong> an object, things are different.</p>
-
 <p>A <strong>transaction</strong> provides a context for performing atomic changes to persistent business objects. Before a business object can be created, changed, or deleted, a transaction must be started, and changes to the touched business objects will only be made durable when the transaction is committed.</p>
-
 <p>Keep this in mind: whenever you need to create, change, or delete an object instance, you will need a transaction.</p>
-
+  <pre><code>Transaction.wrap(function () {
+   ...
+});
+</code></pre>
 <h2>Transaction Types</h2>
-
 <p>We have two types of transactions: <strong>Implicit</strong> and <strong>Explicit</strong>.</p>
-
 <ul>
   <li><strong>Implicit:</strong> This is the type of transaction used in the example above. You define the code that will be inside the transaction without actually writing any <strong>BEGIN</strong> or <strong>COMMIT</strong> commands. If anything fails, the transaction will be rolled back automatically, and the changes will be undone.</li>
-  
   <li><strong>Explicit:</strong> In this type of transaction, you are responsible for defining where the transaction begins and ends. For instance, consider a scenario where you’re managing user accounts. You might want to ensure that changes to user data are only saved if all operations, such as updating user profiles and adjusting permissions, succeed. In such cases, you explicitly define the start and end of the transaction to guarantee that either all changes are committed or none at all, preserving data integrity.</li>
 </ul>
-
 <p>Here you can find examples of Implicit and Explicit Transactions:</p>
+<p><img style="border: 1px solid black;" src="https://sfcclearning.com/wp-content/uploads/2023/01/salesforce-commerce-cloud-transactions.png"></p>
