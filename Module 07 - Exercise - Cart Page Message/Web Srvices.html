@@ -1,0 +1,27 @@
+<h1>Web Services</h1>
+<p>Salesforce B2C Commerce provides a web service framework to help manage calls to external services and analyze service performance. The framework enforces limits that can be configured, such as the overall number of calls allowed within a time interval and the number of failed calls allowed within a time interval. It also collects analytics on your web service calls.</p>
+<p>For each web service, the framework requires three configurations:</p>
+<ul>
+    <li><strong>Service Configuration:</strong> Generates a ServiceConfig object.</li>
+    <li><strong>Service Profile Configuration:</strong> Determines how B2C Commerce manages timeouts and rate limits for the web service.</li>
+    <li><strong>Service Credential Configuration:</strong> Used for basic authentication.</li>
+</ul>
+<p>These configurations are created in Business Manager.</p>
+<img src="https://a.sfdcstatic.com/developer-website/sfdocs/commerce-cloud/media/b2c-commerce/b2c_web_services_web_services_ovr.gif" alt="Web Service Overview">
+<h2>The Web Service Script</h2>
+<p>A web service script obtains a <code>Service</code> object by calling the <code>LocalServiceRegistry.createService</code> method. This method requires two arguments: the name of a service configuration and a script object that contains callback code you provide.</p>
+<p>The script then invokes the service by calling <code>Service.call</code>. The framework checks whether the configured rate limit or circuit breaker limit has been exceeded. If the limits have not been exceeded, the framework executes the callbacks implemented in the <code>Service</code> object.</p>
+<p>Once the call is complete, the script either:</p>
+<ul>
+    <li>Passes the result of the successful call to the pipeline dictionary.</li>
+    <li>Throws an error if the call fails.</li>
+</ul>
+<p>If your storefront uses pipelines to call web services, the web service script is invoked by a script node within the pipeline. If your storefront uses SFRA controllers, the web service script can be embedded directly in the controller without needing a separate script file.</p>
+<h2>Steps to Create a Web Service</h2>
+<p>To create and configure a web service in Salesforce B2C Commerce:</p>
+<ul>
+    <li><strong>Configure Web Services:</strong> Set up your service configuration in Business Manager.</li>
+    <li><strong>Code Your Web Service:</strong> Write the web service script to handle service calls.</li>
+    <li><strong>Set Up Logging and Troubleshooting:</strong> Implement logging for tracking service calls and identifying issues.</li>
+    <li><strong>Go Live:</strong> Deploy the web service once testing and troubleshooting are complete.</li>
+</ul>
