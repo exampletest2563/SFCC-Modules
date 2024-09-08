@@ -1,0 +1,43 @@
+<h1>Configuring Web Services in Business Manager</h1>
+<h2>Create a Web Service Profile</h2>
+<p>The web service profile defines how B2C Commerce detects and manages high numbers of requests and responses from the service, as well as its availability. Multiple services with similar requirements can use the same service profile.</p>
+<p>Follow these steps to create a web service profile:</p>
+<ol>
+    <li>Select <strong>Administration &gt; Operations &gt; Services</strong>.</li>
+    <li>On the Services page, click the <strong>Profiles</strong> tab.</li>
+    <li>Click <strong>New</strong> on the Service Profiles page.</li>
+    <li>Enter a descriptive name for the profile.</li>
+    <li>Enter the number of milliseconds for the client connection timeout. B2C Commerce waits this amount of time for a web service response before throwing an error.</li>
+    <li>Check the <strong>Enable Circuit Breaker</strong> box to identify when a service is unavailable and to stop making calls to it. This is checked by default. It’s recommended to always enable this option and configure it according to the service call rate.</li>
+    <li>(Optional) Enter the number of failed calls needed to trigger the circuit breaker into the <strong>Max Circuit Breaker Calls</strong> field.</li>
+    <li>(Optional) Enter the time interval in milliseconds during which the maximum number of failed calls can occur in the <strong>Circuit Breaker Interval (ms)</strong> field.</li>
+    <li>Check the <strong>Enable Rate Limit</strong> box to limit outgoing calls within a specific interval.</li>
+    <li>Enter the maximum number of calls for the rate limit interval in the <strong>Max Rate Limit Calls</strong> field.</li>
+    <li>Enter the time interval in milliseconds in which the rate limit applies in the <strong>Rate Limit Interval (ms)</strong> field.</li>
+</ol>
+<h2>Create a Web Service Credential</h2>
+<p>Web service credentials are used for basic authentication. Follow these steps to create a web service credential:</p>
+<ol>
+    <li>Select <strong>Administration &gt; Operations &gt; Services</strong>.</li>
+    <li>On the Services page, click the <strong>Credentials</strong> tab.</li>
+    <li>Click <strong>New</strong> on the Service Credentials page.</li>
+    <li>Enter a name for the credential (spaces are not allowed). Use a descriptive name without including sensitive information like usernames or passwords (e.g., <code>http.mysite.myservice.cred</code>).</li>
+    <li>Enter the service URL, including the protocol (e.g., <code>ftp://51.134.145.10</code>).</li>
+    <li>Enter the username for the credential.</li>
+    <li>Enter the password. Once entered, it’s masked and cannot be retrieved, so store it securely.</li>
+</ol>
+<h2>Create a Web Service Configuration</h2>
+<p>The web service configuration specifies which credentials and service profile B2C Commerce should use when calling the web service. Follow these steps to create a web service configuration:</p>
+<ol>
+    <li>Select <strong>Administration &gt; Operations &gt; Services</strong>.</li>
+    <li>On the Services page, click <strong>New</strong>.</li>
+    <li>Enter a name for the service. It is recommended to follow the pattern <code>{cartridge}.{protocol}.{service}.{operation}</code> (e.g., <code>mycartridge.http.payment.get</code>).</li>
+    <li>Select the <strong>Service Type</strong> that fits the web service.</li>
+    <li>Check the <strong>Enabled</strong> box if the web service is ready for use.</li>
+    <li>Set the <strong>Service Mode</strong> to either <strong>Live</strong> for actual calls or <strong>Mocked</strong> for simulated responses.</li>
+    <li>Enter a prefix for the service log file (optional). If not provided, it defaults to "main."</li>
+    <li>Check the <strong>Communication Log Enabled</strong> box to log data for the web service call’s request and response. Be sure to filter sensitive data.</li>
+    <li>If desired, check <strong>Force PRD behavior in non-PRD environments</strong> to disallow unfiltered logs on non-production instances.</li>
+    <li>Select a service profile.</li>
+    <li>Select the appropriate service credential.</li>
+</ol>
