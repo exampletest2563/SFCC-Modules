@@ -1,0 +1,94 @@
+<h1>Introduction</h1>
+<p>All requires we have seen in previous chapters of the SFRA course that start with <code>dw/</code> are part of the Salesforce Commerce Cloud API. We don’t have access to the source code. In case you need details, functions, or attributes about any of them, refer to the <a href="https://documentation.b2c.commercecloud.salesforce.com/DOC1/index.jsp?topic=%2Fcom.demandware.dochelp%2FDWAPI%2Fscriptapi%2Fhtml%2Fapi%2FpackageList.html&cp=0_20_2/" target="_blank">official documentation</a>.</p>
+<p>The API allows you to access data about the system, such as products, catalogs, prices, etc. You can access the API from both controllers and ISML templates for expressions or inside <code>&lt;isscript&gt;</code> tags.</p>
+<p><img style="border: 1px solid black;" src="https://sfcclearning.com/wp-content/uploads/2023/01/sfcc-dw-script-api-requires.png" alt="SFCC DW Script API Requires"></p>
+<h2>API Packages</h2>
+<p>The Digital Script API is organized in packages, just like Java. Unlike Java, inheritance is not possible from these classes or packages when you create a script. You can only use the properties and methods of these classes in your scripts.</p>
+<p>In this API, the <strong>TopLevel</strong> package is the default package. It is similar to <code>java.lang</code> in Java. It does not need to be imported into scripts. It provides standard ECMAScript classes and extensions, such as <code>Error</code>, <code>Date</code>, <code>Function</code>, <code>String</code>, <code>Math</code>, <code>Number</code>, and <code>XML</code>.</p>
+<p>The <code>TopLevel.global</code> class contains many of the common constants and properties used in scripts. Some properties include: <code>customer</code>, <code>request</code>, and <code>session</code>.</p>
+<p>In these packages, there are many <strong>classes that end with Mgr</strong>. These classes, for example, <code>dw.catalog.ProductMgr</code>, retrieve instances of business objects related to the package they belong to.</p>
+<p>For example, use <code>ProductMgr.getProduct(String id)</code> to get a product using a unique identifier. The method returns a <strong>Product</strong> instance, which you can use to find information about the product. This pattern is repeated for all Managers.</p>
+<p>The table below shows the description of some of these packages. You don't need to remember everything, just use it as a reference for future needs:</p>
+<table border="1">
+    <thead>
+        <tr>
+            <th>eCommerce API Packages</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>dw.campaign</code></td>
+            <td>For campaign and promotions. <br>Classes: <code>PromotionMgr</code>, <code>Campaign</code>, <code>Promotion</code>, <code>SourceCodeGroup</code>, etc.</td>
+        </tr>
+        <tr>
+            <td><code>dw.catalog</code></td>
+            <td>For catalog, product, and price book. <br>Classes: <code>CatalogMgr</code>, <code>Category</code>, <code>Product</code>, <code>Recommendation</code>, <code>PriceBook</code>, etc.</td>
+        </tr>
+        <tr>
+            <td><code>dw.content</code></td>
+            <td>For non-product content management. <br>Classes: <code>ContentMgr</code>, <code>Content</code>, <code>Folder</code>, <code>Library</code>, etc.</td>
+        </tr>
+        <tr>
+            <td><code>dw.customer</code></td>
+            <td>For customer profile and account. <br>Classes: <code>CustomerMgr</code>, <code>Customer</code>, <code>Profile</code>, <code>ProductList</code>, <code>OrderHistory</code>, etc.</td>
+        </tr>
+        <tr>
+            <td><code>dw.order</code></td>
+            <td>For orders, including: basket, coupons, line items, payment, shipment. <br>Classes: <code>Basket</code>, <code>Order</code>, <code>ProductLineItem</code>, <code>ShippingMgr</code>, <code>TaxMgr</code>, etc.</td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Generic API Packages</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>dw.crypto</code></td>
+            <td>Encryption services using JCA: DES, Triple-DES, AES, RSA, etc.<br>Classes: <code>Cipher</code>, <code>MessageDigest</code></td>
+        </tr>
+        <tr>
+            <td><code>dw.io</code></td>
+            <td>Input and output. <br>Classes: <code>File</code>, <code>FileReader</code>, <code>CSVStreamReader</code>, <code>XMLStreamReader</code>, etc.</td>
+        </tr>
+        <tr>
+            <td><code>dw.object</code></td>
+            <td>System base classes and custom objects. <br>Classes: <code>PersistentObject</code>, <code>ExtensibleObject</code>, <code>CustomObjectMgr</code>, etc.</td>
+        </tr>
+        <tr>
+            <td><code>dw.rpc</code></td>
+            <td>Web services related APIs. <br>Classes: <code>WebReference</code>, <code>Stub</code></td>
+        </tr>
+        <tr>
+            <td><code>dw.system</code></td>
+            <td>System functions. <br>Classes: <code>Site</code>, <code>Request</code>, <code>Session</code>, <code>Logger</code></td>
+        </tr>
+        <tr>
+            <td><code>dw.util</code></td>
+            <td>Similar to the <code>java.util</code> API: collections, maps, and calendar classes.</td>
+        </tr>
+        <tr>
+            <td><code>dw.value</code></td>
+            <td>Immutable value objects. <br>Classes: <code>Money</code>, <code>Quantity</code></td>
+        </tr>
+        <tr>
+            <td><code>dw.web</code></td>
+            <td>Web-processing. <br>Classes: <code>URLUtils</code>, <code>Forms</code>, <code>Cookie</code>, <code>HttpParameterMap</code>, etc.</td>
+        </tr>
+    </tbody>
+</table>
+<p>You can also embed SFCC Script API calls into ISML by using the <code>&lt;isset&gt;</code> tag as you can see below:</p>
+<pre><code>&lt;isset name="PaymentInst" value="${require('dw/order/PaymentInstrument');}" scope="page" /&gt;</code></pre>
+<p>Inside the <code>&lt;isscript&gt;</code> tag, you can fully qualify every class you want to use, or you can import any packages at the top of the script:</p>
+<pre><code>&lt;isscript&gt;
+    var CatalogMgr = require('dw/catalog/CatalogMgr');
+    var siteCatalog = CatalogMgr.getSiteCatalog();
+    ...
+&lt;/isscript&gt;</code></pre>
+<p><strong>Be aware:</strong> This practice of adding logic inside ISML templates is <strong>NOT RECOMMENDED</strong>, so use it with moderation. Instead, always try to add any logic in the Controller.</p>
+<p><img style="border: 1px solid black;" src="https://sfcclearning.com/wp-content/uploads/2023/01/dw-customer-package.png" alt="DW Customer Package"></p>
