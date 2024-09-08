@@ -1,0 +1,225 @@
+<h1>Introduction</h1>
+<p>Salesforce Commerce Cloud Digital provides tools to simplify form display and processing. Use the Digital Forms framework to control how consumer-entered values are validated by the application, rendered in a browser, and possibly stored on a server.</p>
+<p>To use the Digital Forms framework, you need the following files:</p>
+<ul>
+    <li>An XML form to define and store the metadata</li>
+    <li>A Controller that will validate and process the form</li>
+    <li>A resource bundle (.properties) file that contains externalized form labels and possible error messages</li>
+    <li>An ISML template that will display the form to the user</li>
+</ul>
+<p>There are a few objects that interact with each other when working with Digital forms:</p>
+<ul>
+    <li><strong>XML metadata file:</strong> located in the cartridge/forms/default directory. It describes the fields, labels, validation rules, and actions that apply when the field is used in an ISML template.</li>
+    <li><strong>ISML template:</strong> it uses the form metadata fields and actions to show an HTML form to the user.</li>
+    <li><strong>Controller:</strong> Renders your template and also processes your form data when you submit it.</li>
+    <li><strong>Resource Bundle:</strong> Contains the labels and titles that you display in your form.</li>
+    <li><strong>Object (optional):</strong> This object represents a single system or custom object in the pdict. It can be used to pre-fill the metadata file as well as to store submitted form data to the database.</li>
+</ul>
+<h2>XML Metadata File</h2>
+<p>Identify the fields that a user will need to enter and what actions can be taken when implementing a form.</p>
+<p>This information typically comes from a wireframe or a functional specification. Once the form fields are determined, create them in an XML form that will set the form field parameters and hold the data for the form.</p>
+<p>This table shows all elements that can be used in your XML form file, e.g., <em>signupform.xml</em>:</p>
+<table>
+    <thead>
+        <tr>
+            <th>Element</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>form</td>
+            <td>Required: top-level tag that contains all other elements inside.</td>
+        </tr>
+        <tr>
+            <td>field</td>
+            <td>Required: Defines a data field with many attributes.</td>
+        </tr>
+        <tr>
+            <td>options</td>
+            <td>Use as a child element inside a field to pre-fill multiple options like months, days, etc.</td>
+        </tr>
+        <tr>
+            <td>option</td>
+            <td>Use as a child element inside an options element to specify a single option.</td>
+        </tr>
+        <tr>
+            <td>action</td>
+            <td>Defines a possible action the user might take on the form.</td>
+        </tr>
+        <tr>
+            <td>include</td>
+            <td>Allows inclusion of one form metadata definition into another.</td>
+        </tr>
+        <tr>
+            <td>list</td>
+            <td>Allows inclusion of several items (i.e., the collection of addresses) as a single field.</td>
+        </tr>
+        <tr>
+            <td>group</td>
+            <td>Allows grouping of elements to be invalidated together.</td>
+        </tr>
+    </tbody>
+</table>
+<h3>The field element may use the following attributes:</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>formid</td>
+            <td>Required: unique ID to identify the field for ISML templates and controllers.</td>
+        </tr>
+        <tr>
+            <td>type</td>
+            <td>Required: data type for the field.</td>
+        </tr>
+        <tr>
+            <td>range-error</td>
+            <td>Message shown if the value provided does not fall within the specified range.</td>
+        </tr>
+        <tr>
+            <td>parse-error</td>
+            <td>Message shown when the data entered does not match the regex.</td>
+        </tr>
+        <tr>
+            <td>value-error</td>
+            <td>Shown if an element is invalidated in a pipeline.</td>
+        </tr>
+        <tr>
+            <td>missing-error</td>
+            <td>Message shown if the primary key validation error is generated.</td>
+        </tr>
+        <tr>
+            <td>label</td>
+            <td>Usually a key to an externalized string in the forms.properties resource bundle.</td>
+        </tr>
+        <tr>
+            <td>regexp</td>
+            <td>Regular expression for string fields: email, phone, zip code, etc.</td>
+        </tr>
+        <tr>
+            <td>description</td>
+            <td>Description for the field, used in tooltips.</td>
+        </tr>
+        <tr>
+            <td>mandatory</td>
+            <td>The field is required via server-side validation when true.</td>
+        </tr>
+        <tr>
+            <td>min, max</td>
+            <td>The valid range for integer, number, and dates.</td>
+        </tr>
+        <tr>
+            <td>min-length, max-length</td>
+            <td>Restricts the field length for data entry.</td>
+        </tr>
+        <tr>
+            <td>binding</td>
+            <td>Used to match the field to a persistent object attribute.</td>
+        </tr>
+        <tr>
+            <td>masked</td>
+            <td>Specify the number of characters to mask.</td>
+        </tr>
+        <tr>
+            <td>format</td>
+            <td>The format for displaying dates, numbers, etc.</td>
+        </tr>
+        <tr>
+            <td>whitespace</td>
+            <td>Specifies whitespace handling (none or remove).</td>
+        </tr>
+        <tr>
+            <td>timezoned</td>
+            <td>Optional flag for date objects (true or false).</td>
+        </tr>
+        <tr>
+            <td>default-value</td>
+            <td>Pre-defines a value for the field.</td>
+        </tr>
+        <tr>
+            <td>checked-value</td>
+            <td>Value when the field is checked in a form.</td>
+        </tr>
+        <tr>
+            <td>unchecked-value</td>
+            <td>Value when the field is unchecked in a form.</td>
+        </tr>
+    </tbody>
+</table>
+<p>There are four types of errors: range-error, parse-error, missing-error, and value-error. There are two required attributes: formid and type.</p>
+<p>For data type, use the following values:</p>
+<table>
+    <thead>
+        <tr>
+            <th>Data Type</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>string</td>
+            <td>Use for text data.</td>
+        </tr>
+        <tr>
+            <td>integer</td>
+            <td>Use for numeric data like days, months.</td>
+        </tr>
+        <tr>
+            <td>number</td>
+            <td>Use for quantity fields.</td>
+        </tr>
+        <tr>
+            <td>boolean</td>
+            <td>Use with multiple-choice fields.</td>
+        </tr>
+        <tr>
+            <td>date</td>
+            <td>Use this when timezoned or format are needed for dates.</td>
+        </tr>
+    </tbody>
+</table>
+<p>In this example, the fields <em>firstname</em> and <em>lastname</em> store information needed for the user profile. Some fields are mandatory due to the attribute <code>mandatory="true"</code>.</p>
+<p>All fields contain label keys that point to the <code>forms.properties</code> file. The <em>postalCode</em> field has an additional requirement: it uses a regular expression (regexp) to define the acceptable format for postal codes and specifies a parse-error key that matches an error message in the <code>forms.properties</code> file.</p>
+<p>The <code>action</code> tag, when present, identifies the possible actions a user may take on the form. The attribute <code>valid-form="true"</code> indicates that this form requires validation, enforcing mandatory fields on the server side.</p>
+<h2>ISML Template</h2>
+<p>Define an ISML template with the same tags needed for a valid HTML form: <code>&lt;form&gt;...&lt;/form&gt;</code>.</p>
+<p>You can implement your own form action by specifying a controller URL, but that would circumvent the Forms framework.</p>
+<pre>
+<code>
+&lt;form action="${URLUtils.url('<Controller>-<Function>')}" method="post"&gt;
+    ...
+&lt;/form&gt;
+</code>
+</pre>
+<p>The method <code>URLUtils.url(&#39;&lt;Controller&gt;-&lt;Function&gt;&#39;)</code> calls the specified Controller and function when the form is submitted. Another method, <code>URLUtils.continueURL()</code>, ensures that the form is submitted back to the controller that displayed the form template. SFRA uses the <code>input</code> tag for form field creation.</p>
+<p>Below is part of the <em>addressForm.isml</em> template:</p>
+<p>Watch out for the form attributes such as action and method:</p>
+<img style="border: 1px solid black;" src="https://sfcclearning.com/wp-content/uploads/2023/01/sfcc-form-isml-example.png" alt="ISML Form Example">
+<h2>Controller</h2>
+<p>There is usually a controller behind the scenes responsible for rendering the template file and sending the form object to it.</p>
+<p>Below is part of the Address Controller file:</p>
+<img style="border: 1px solid black;" src="https://sfcclearning.com/wp-content/uploads/2023/01/address-controller-save-form-data.png" alt="Address Controller Example">
+<p>The controller performs the following actions:</p>
+<ul>
+    <li>Retrieve the address ID from the parameters sent to the function call.</li>
+    <li>Retrieve customer data.</li>
+    <li>Create a model.</li>
+    <li>Create data from the form object using the current session and metadata file definition.</li>
+    <li>Clear an existing form object in the pdict using a specified form metadata file.</li>
+    <li>Populate the form object with data retrieved from the API.</li>
+    <li>Render the template file.</li>
+    <li>Send values or objects to be used in the template.</li>
+</ul>
+<h2>Resource Bundle</h2>
+<p>By default, all labels, messages, and titles used in your forms should be added inside the <code>&lt;cartridge&gt;\cartridge\templates\resources\forms.properties</code> file.</p>
+<img style="border: 1px solid black;" src="https://sfcclearning.com/wp-content/uploads/2023/01/howto-translate-form-labels-sfcc.png" alt="Form Labels Translation Example">
+<h2>route:beforeComplete Event</h2>
+<p>The callback function for this event is executed before middleware completion. Salesforce Commerce Cloud documentation states: <em>"The route:beforeComplete event is used to store form data. Different APIs are used to save data, depending on the type of form."</em></p>
+<p>This event is not mandatory but can be useful when saving form data or when extending the endpoint. You must ensure that your logic to save form data is executed last.</p>
+<img style="border: 1px solid black;" src="https://sfcclearning.com/wp-content/uploads/2023/01/before-complete-form-event.png" alt="Before Complete Form Event">
