@@ -1,5 +1,5 @@
 <h1>Managing Dynamic Content with Content Slots</h1>
-<p>A <strong>content slot is an area on the page where a merchant defines the content to display </strong> based on certain qualifiers or rules.</p> <p>In Salesforce Commerce Cloud, a content slot, just like a content asset, is a database object with attributes. You can extend the object with its own attributes using the metadata system.</p>
+<p>A <strong>content slot is an area on the page where a merchant defines the content to display</strong> based on certain qualifiers or rules.</p> <p>In Salesforce Commerce Cloud, a content slot, just like a content asset, is a database object with attributes. You can extend the object with its own attributes using the metadata system.</p>
 <p>Content slots are typically used for information that changes from time to time, such as a promotional banner. A content slot is used to show different types of content:</p>
 <ul>
     <li>One or many products selected by the merchant</li>
@@ -7,13 +7,13 @@
     <li>Content assets from the content library</li>
     <li>Static HTML and images from the static library</li>
 </ul>
-<p>To view a content slot, use the <strong> Storefront Toolkit </strong> &gt; <strong> Content Information tool</strong>. Hover the mouse pointer around the page to reveal where content slots exist and to access a link to the slot's configuration page in Business Manager.</p>
+<p>To view a content slot, use the <strong>Storefront Toolkit</strong> &gt; <strong>Content Information tool</strong>. Hover the mouse pointer around the page to reveal where content slots exist and to access a link to the slot's configuration page in Business Manager.</p>
 <h2>Types of Content Slots</h2>
 <p>There are several <strong>types of content slots</strong>:</p>
 <ul>
-    <li><strong> Global slots </strong> can appear on any page.</li>
-    <li><strong>Category slots </strong> appear on category-specific pages since they depend on the category ID.</li>
-    <li><strong>Folder slots </strong>appear in content library folders dependent on the folder ID.</li>
+    <li><strong>Global slots</strong> can appear on any page.</li>
+    <li><strong>Category slots</strong> appear on category-specific pages since they depend on the category ID.</li>
+    <li><strong>Folder slots</strong> appear in content library folders dependent on the folder ID.</li>
 </ul>
 <p>There are many rules that drive the appearance of a slot: marketing campaigns, ranks, A/B tests, customer groups, etc.</p>
 <h2>Content Slots vs. Content Assets</h2>
@@ -21,8 +21,8 @@
 <p>On the other hand, <strong> Content assets are reusable elements </strong> that do not have qualifiers. These include HTML text, graphics, and videos to provide customers with non-product-related information such as customer support pages, special sales, size charts, and gardening tips.</p>
 <ul>
     <li>Content slots and content assets are managed in different areas within the Business Manager.</li>
-    <li>Content slots are a marketing tool, and configuration information for them resides in <strong>Site &gt; Online Marketing &gt; Content Slots</strong>.</li>
-    <li>Content assets are a media tool and reside in <strong>Site &gt; Content &gt; Content Assets</strong>.</li>
+    <li>Content slots are a marketing tool, and configuration information for them resides in <strong>Site</strong> &gt; <strong>Marketing</strong> &gt; <strong>Content Slots</strong>.</li>
+    <li>Content assets are a media tool and reside in <strong>Site</strong> &gt; <strong>Content</strong> &gt; <strong>Content Assets</strong>.</li>
 </ul>
 <h2>Creating & Configuring Content Slots</h2>
 <p>Creating a content slot requires a collaborative effort:</p>
@@ -36,7 +36,7 @@
 <pre><code>&lt;isslot id="header_banner" description="..." context="global"/&gt;
 &lt;isslot id="category_top_featured" context="category" description="..." context-object="${pdict.ProductSearchResult.category}"/&gt;
 &lt;isslot id="fldr-landing-slotbanner" context="folder" description="Large Folder Landing Banner" context-object="${pdict.ContentSearchResult.folder}"/&gt;</code></pre>
-<p>Whenever the template is saved, the new content slot automatically displays in the list of slots under <strong>Site &gt; Online Marketing &gt; Content Slots</strong>. This occurs because Commerce Cloud Digital scans any template for the use of the <code>&lt;isslot&gt;</code> tag.</p>
+<p>Whenever the template is saved, the new content slot automatically displays in the list of slots under <strong>Site</strong> &gt; <strong>Online Marketing</strong> &gt; <strong>Content Slots</strong>. This occurs because Commerce Cloud Digital scans any template for the use of the <code>&lt;isslot&gt;</code> tag.</p>
 <h3>Creating the Slot Rendering Template - Developer Tasks</h3>
 <p>There are four possible types of content that slots can display. The developer should create the rendering template, taking into account the type of content, how many objects to display, and any CSS styling required for the slot.</p>
 <p>For example, the <code>header_banner-m</code> slot uses the <code>htmlSlotContainer.isml</code> template as the rendering template:</p>
